@@ -2,6 +2,8 @@
 <script setup>
 import { ref } from 'vue';
 import VideoItem from '../components/VideoItem.vue'
+import Docker from '../components/Docker.vue';
+import router from '../routes/index'
 
 const active = ref(0);
 
@@ -27,6 +29,10 @@ const onLoad = () => {
   }, 1000);
 };
 
+function login() {
+  router.push('/login')
+}
+
 // import router from '../routes';
 
 // const toAbout = () => {
@@ -35,6 +41,14 @@ const onLoad = () => {
 </script>
 
 <template>
+  <van-nav-bar>
+    <template #left>
+      <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" />
+    </template>
+    <template #right>
+      <van-button @click="login">登录</van-button>
+    </template>
+  </van-nav-bar>
   <van-tabs v-model:active="active">
     <van-tab title="标签 1">
       <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -54,6 +68,7 @@ const onLoad = () => {
     <van-tab title="标签 3">内容 3</van-tab>
     <van-tab title="标签 4">内容 4</van-tab>
   </van-tabs>
+  <Docker></Docker>
 </template>
 
 <style lang="scss" scoped>
