@@ -5,3 +5,7 @@ const service = axios.create({
     timeout: 30000,
     validateStatus: (status) => status === 200,
 })
+
+function Add() {
+    
+}
