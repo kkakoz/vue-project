@@ -2,7 +2,7 @@
 <script setup>
 import { ref } from 'vue';
 import VideoItem from '../components/VideoItem.vue'
-import Docker from '../components/Docker.vue';
+import Tabbar from '../components/Tabbar.vue';
 import router from '../routes/index'
 
 const active = ref(0);
@@ -68,7 +68,7 @@ function login() {
     <van-tab title="标签 3">内容 3</van-tab>
     <van-tab title="标签 4">内容 4</van-tab>
   </van-tabs>
-  <Docker></Docker>
+  <Tabbar></Tabbar>
 </template>
 
 <style lang="scss" scoped>

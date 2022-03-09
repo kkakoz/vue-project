@@ -25,7 +25,6 @@
 
 <script setup>
 import {ref} from 'vue'
-import Docker from '../components/Docker.vue';
 const username = ref('');
 const password = ref('');
 const onSubmit = (values) => {
