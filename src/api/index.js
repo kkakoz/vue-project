@@ -3,16 +3,15 @@ import {
     showMessage
 } from "./status"; // 引入状态码文件
 import {
-    ElMessage
-} from 'element-plus' // 引入el 提示框，这个项目里用什么组件库这里引什么
-
+    Toast
+} from 'vant';
 // 设置接口超时时间
 axios.defaults.timeout = 60000;
 
 // 请求地址，这里是动态赋值的的环境变量，下一篇会细讲，这里跳过
 // @ts-ignore
 axios.defaults.baseURL = "http://localhost:10010/api";
-    // import.meta.env.VITE_API_DOMAIN;
+// import.meta.env.VITE_API_DOMAIN;
 
 //http request 拦截器
 axios.interceptors.request.use(
@@ -44,7 +43,7 @@ axios.interceptors.response.use(
             showMessage(response.status); // 传入响应码，匹配响应码对应信息
             return Promise.reject(response.data);
         } else {
-            ElMessage.warning('网络连接异常,请稍后再试!');
+            Toast("网络连接异常,请稍后再试!")
         }
     }
 );

@@ -1,4 +1,5 @@
 <template>
+    <van-nav-bar title="登录" class="page-nav-bar" />
     <van-form @submit="onSubmit">
         <van-cell-group inset>
             <van-field
@@ -18,19 +19,41 @@
             />
         </van-cell-group>
         <div style="margin: 16px;">
-            <van-button round block type="primary" native-type="submit">提交</van-button>
+            <van-button round block type="primary" native-type="submit">登录</van-button>
+        </div>
+        <div style="margin: 16px;">
+            <van-button round block type="primary" native-type="submit">注册</van-button>
         </div>
     </van-form>
 </template>
 
 <script setup>
-import {ref} from 'vue'
-const username = ref('');
-const password = ref('');
+import { ref } from 'vue'
+import router from '../routes'
+import { login } from '../api/user.js'
+import { Toast } from 'vant';
+import { useStore } from 'vuex'
+
+const store = useStore()
+const username = ref('1');
+const password = ref('1');
 const onSubmit = (values) => {
+    // login(username.value, password.value)
     console.log('submit', values);
+
+    store.commit("setUser", { username, password })
+    console.log('user = ', store.state.user)
+    Toast.success("登录成功")
+    router.push("/")
+
 };
 </script>
 
 <style scoped lang="scss">
+.page-nav-bar {
+    background-color: #3296fa;
+    .van-nav-bar__title {
+        color: #fff;
+    }
+}
 </style>

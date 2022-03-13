@@ -1,30 +1,41 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router';
 import About from '../pages/About.vue';
 import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
 
-const routes = [
-  {
-    path: '/',
-    component: () => import ('../pages/Home.vue'),
-    meta: { title: 'Home' },
-  },
-  {
-    path: '/about',
-    component: About,
-    meta: { title: 'About' },
-  },
-  {
-    path: '/login',
-    component: Login,
-    meta: { title: 'Login' },
-  },
-  { path: '/:path(.*)', component: NotFound },
+const routes = [{
+        path: '/',
+        component: () => import('../pages/Home.vue'),
+        meta: {
+            title: 'Home'
+        },
+    },
+    {
+        path: '/about',
+        component: About,
+        meta: {
+            title: 'About'
+        },
+    },
+    {
+        path: '/login',
+        component: Login,
+        meta: {
+            title: 'Login'
+        },
+    },
+    {
+        path: '/:path(.*)',
+        component: NotFound
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(),
+    routes,
 });
 
 // // 路由全局前置守卫
