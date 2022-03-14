@@ -4,5 +4,5 @@ import {
 
 
 export const login = data => {
-    request("/api/login", data)
+    request("/users/login", data)
 }

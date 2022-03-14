@@ -38,10 +38,10 @@ const store = useStore()
 const username = ref('1');
 const password = ref('1');
 const onSubmit = (values) => {
-    // login(username.value, password.value)
+    login({username: username.value, password: password.value})
     console.log('submit', values);
 
-    store.commit("setUser", { username, password })
+    store.commit("setUser", { username: username.value, password: password.value })
     console.log('user = ', store.state.user)
     Toast.success("登录成功")
     router.push("/")
