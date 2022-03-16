@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="to">
     <div class="img">
       <img
         src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F1113%2F032120114622%2F200321114622-4-1200.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649310081&t=34c7c1d033d6f36402d5494dbef95c1e"
@@ -22,7 +22,11 @@
 </template>
 
 <script setup>
+import router from '../routes'
 
+function to() {
+  router.push("/video")
+}
 </script>
 
 <style lang="scss" scoped>

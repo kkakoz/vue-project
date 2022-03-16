@@ -5,6 +5,7 @@ import {
 import About from '../pages/About.vue';
 import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
+import Video from '../pages/Video.vue'
 
 const routes = [{
         path: '/',
@@ -25,6 +26,13 @@ const routes = [{
         component: Login,
         meta: {
             title: 'Login'
+        },
+    },
+    {
+        path: '/video',
+        component: Video,
+        meta: {
+            title: 'Video'
         },
     },
     {
