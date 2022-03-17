@@ -6,10 +6,12 @@ import About from '../pages/About.vue';
 import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
 import Video from '../pages/Video.vue'
+import Comment from '../components/Comment.vue'
 
 const routes = [{
         path: '/',
-        component: () => import('../pages/Home.vue'),
+        // component: () => import('../pages/Home.vue'),
+        component: Comment,
         meta: {
             title: 'Home'
         },

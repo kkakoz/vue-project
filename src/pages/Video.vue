@@ -3,13 +3,13 @@
     <!-- <Video></Video> -->
     <van-tabs v-model:active="active">
   <van-tab title="详情"><VideoDetail></VideoDetail></van-tab>
-  <van-tab title="评论"><Common></Common></van-tab>
+  <van-tab title="评论"><Comment></Comment></van-tab>
 </van-tabs>
 </template>
 <script setup>
 import Video from '../components/Video.vue'
 import VideoDetail from '../components/VideoDetail.vue'
-import Common from '../components/Common.vue'
+import Comment from '../components/Comment.vue'
 
 import { ref } from 'vue';
 
