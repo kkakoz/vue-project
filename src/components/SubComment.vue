@@ -11,27 +11,15 @@
                 <span class="note">昨天</span>
             </div>
 
-            <div class="content">{{ comment.content }}</div>
+            <div class="content">{{ content }}</div>
             <div class="actions">
                 <van-icon name="thumb-circle-o" />
                 <van-icon name="share-o" />
                 <van-icon name="comment-o" />
             </div>
-            <div class="sub_comments">
-                <div v-for="comment in comment.subComments" class="sub">
-                    <span class="click_name">{{ comment.name }}</span>
-                    <span v-if="comment.targetId">
-                        &nbsp;回复&nbsp;
-                        <span class="click_name">{{ comment.targetName }}</span>
-                    </span>
-                    :{{ comment.content }}
-                </div>
-                <div class="last" @click="moreSubComments(comment.id)">
-                    <span class="click_name">更多回复</span>
-                </div>
-            </div>
         </div>
     </div>
+    <van-divider />
 </template>
 
 <script setup>
@@ -47,6 +35,15 @@ function moreSubComments(id) {
     emits('sub-comments', id)
 }
 
+console.log(props.comment)
+
+const avatar = "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image"
+
+const content = "我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行"
+
+const subComments = [
+    { id: "1", name: "李四", content: "123456", targetId: 2, targetName: "王五" },
+    { id: "2", name: "李四", content: "123456", targetId: 0, targetName: "" }]
 </script>
 
 <style scoped lang="scss">
@@ -58,7 +55,6 @@ function moreSubComments(id) {
     }
     .right {
         margin: 0.5rem;
-        width: 100%;
         .user {
             margin: 1rem 0 0.3rem 0;
             font-size: 1.2rem;
@@ -94,5 +90,9 @@ function moreSubComments(id) {
 
 .click_name {
     color: #0681d0;
+}
+
+.van-divider--hairline {
+    margin: 4px 0;
 }
 </style>

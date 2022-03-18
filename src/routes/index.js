@@ -11,7 +11,7 @@ import Comment from '../components/Comment.vue'
 const routes = [{
         path: '/',
         // component: () => import('../pages/Home.vue'),
-        component: Comment,
+        component: Video,
         meta: {
             title: 'Home'
         },
