@@ -5,7 +5,7 @@
         </div>
         <div class="right">
             <div class="user">
-                <span>{{comment.username}}</span>
+                <span>{{ comment.username }}</span>
             </div>
             <div class="time">
                 <span class="note">昨天</span>
@@ -13,13 +13,11 @@
 
             <div class="content">{{ content }}</div>
             <div class="actions">
-                <van-icon name="thumb-circle-o" />
-                <van-icon name="share-o" />
-                <van-icon name="comment-o" />
+                <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
+                <i class="icon iconfont icon-xinxi" @click="like(comment.id)"></i>
             </div>
         </div>
     </div>
-    <van-divider />
 </template>
 
 <script setup>
@@ -31,7 +29,7 @@ let props = defineProps({
 })
 
 let emits = defineEmits("sub-comments")
-function moreSubComments(id) {
+function moreSubComments (id) {
     emits('sub-comments', id)
 }
 
@@ -68,7 +66,7 @@ const subComments = [
             color: #515767;
         }
         .actions {
-            width: 30%;
+            width: 20%;
             display: flex;
             font-size: 1.5em;
             justify-content: space-between;

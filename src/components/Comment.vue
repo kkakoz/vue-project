@@ -5,7 +5,7 @@
         </div>
         <div class="right">
             <div class="user">
-                <span>{{comment.username}}</span>
+                <span>{{ comment.username }}</span>
             </div>
             <div class="time">
                 <span class="note">昨天</span>
@@ -13,9 +13,8 @@
 
             <div class="content">{{ comment.content }}</div>
             <div class="actions">
-                <van-icon name="thumb-circle-o" />
-                <van-icon name="share-o" />
-                <van-icon name="comment-o" />
+                <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
+                <i class="icon iconfont icon-xinxi" @click="like(comment.id)"></i>
             </div>
             <div class="sub_comments">
                 <div v-for="comment in comment.subComments" class="sub">
@@ -43,8 +42,13 @@ let props = defineProps({
 })
 
 let emits = defineEmits("sub-comments")
-function moreSubComments(id) {
+
+function moreSubComments (id) {
     emits('sub-comments', id)
+}
+
+function like (id) {
+    console.log("like")
 }
 
 </script>
@@ -72,7 +76,7 @@ function moreSubComments(id) {
             color: #515767;
         }
         .actions {
-            width: 30%;
+            width: 20%;
             display: flex;
             font-size: 1.5em;
             justify-content: space-between;
@@ -80,8 +84,8 @@ function moreSubComments(id) {
         .sub_comments {
             // background-color: #f4f5f5;
             background-color: rgba(247, 248, 250, 0.7);
-            margin-left: 0.5rem;
             width: 90%;
+            margin-top: 0.3rem;
             .sub {
                 padding: 0.5rem 0.5rem 0 0.5rem;
             }
@@ -94,5 +98,9 @@ function moreSubComments(id) {
 
 .click_name {
     color: #0681d0;
+}
+
+.iconfont- {
+    font-size: 30px;
 }
 </style>
