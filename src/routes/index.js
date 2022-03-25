@@ -7,11 +7,13 @@ import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
 import Video from '../pages/Video.vue'
 import Comment from '../components/Comment.vue'
+import Home from '../pages/Home.vue'
+import Person from '../pages/Person.vue'
 
 const routes = [{
         path: '/',
         // component: () => import('../pages/Home.vue'),
-        component: Video,
+        component: Home,
         meta: {
             title: 'Home'
         },
@@ -35,6 +37,13 @@ const routes = [{
         component: Video,
         meta: {
             title: 'Video'
+        },
+    },
+    {
+        path: '/person',
+        component: Person,
+        meta: {
+            title: 'Person'
         },
     },
     {

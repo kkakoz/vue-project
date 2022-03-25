@@ -27,10 +27,11 @@ import {
     Toast,
     Image as VanImage,
     ActionSheet,
+    Uploader 
 } from 'vant';
 
 createApp(App).use(router).use(store).use(vue3videoPlay).
 use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Grid).use(GridItem).use(List).use(Icon).use(NavBar).
 use(Search).use(Divider).use(Form).use(Field).use(CellGroup).use(Button).
-use(Dialog).use(VanImage).use(ActionSheet).
+use(Dialog).use(Uploader).use(VanImage).use(ActionSheet).
 mount('#app')
