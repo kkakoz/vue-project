@@ -3,11 +3,11 @@
     <van-form @submit="onSubmit">
         <van-cell-group inset>
             <van-field
-                v-model="username"
-                name="用户名"
-                label="用户名"
-                placeholder="用户名"
-                :rules="[{ required: true, message: '请填写用户名' }]"
+                v-model="identifier"
+                name="邮箱"
+                label="邮箱"
+                placeholder="邮箱"
+                :rules="[{ required: true, message: '请填写邮箱' }]"
             />
             <van-field
                 v-model="password"
@@ -21,10 +21,10 @@
         <div style="margin: 16px;">
             <van-button round block type="primary" native-type="submit">登录</van-button>
         </div>
-        <div style="margin: 16px;">
-            <van-button round block type="primary" native-type="submit">注册</van-button>
-        </div>
     </van-form>
+    <div style="margin: 16px;">
+        <van-button round block type="primary" @click="toRegister">注册</van-button>
+    </div>
 </template>
 
 <script setup>
@@ -35,18 +35,27 @@ import { Toast } from 'vant';
 import { useStore } from 'vuex'
 
 const store = useStore()
-const username = ref('1');
+const identifier = ref('123@qq.com');
 const password = ref('1');
 const onSubmit = (values) => {
-    login({username: username.value, password: password.value})
-    console.log('submit', values);
+    Toast.loading({
+        message: '登录中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+    });
 
-    store.commit("setUser", { username: username.value, password: password.value })
+    res = login({ identifier: identifier.value, password: password.value, identity_type: 1, })
+    console.log(res)
+    console.log('submit', res);
+
+    store.commit("setUser", { username: identifier.value, password: password.value })
     console.log('user = ', store.state.user)
     Toast.success("登录成功")
     router.push("/")
-
 };
+const toRegister = () => {
+    router.push('/register')
+}
 </script>
 
 <style scoped lang="scss">

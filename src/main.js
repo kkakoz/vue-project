@@ -7,6 +7,9 @@ import store from './store/store'
 import './style/index.scss'
 import vue3videoPlay from "vue3-video-play"; // 引入组件
 import "vue3-video-play/dist/style.css"; // 引入css
+import 'mui-player/dist/mui-player.min.css'
+
+
 import {
     Tabbar,
     TabbarItem,
@@ -27,7 +30,7 @@ import {
     Toast,
     Image as VanImage,
     ActionSheet,
-    Uploader 
+    Uploader
 } from 'vant';
 
 createApp(App).use(router).use(store).use(vue3videoPlay).

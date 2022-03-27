@@ -5,10 +5,12 @@ import {
 import About from '../pages/About.vue';
 import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
+import Register from '../pages/Register.vue'
 import Video from '../pages/Video.vue'
 import Comment from '../components/Comment.vue'
 import Home from '../pages/Home.vue'
 import Person from '../pages/Person.vue'
+import Upload from '../pages/Upload.vue'
 
 const routes = [{
         path: '/',
@@ -44,6 +46,20 @@ const routes = [{
         component: Person,
         meta: {
             title: 'Person'
+        },
+    },
+    {
+        path: '/upload',
+        component: Upload,
+        meta: {
+            title: 'upload'
+        },
+    },
+    {
+        path: '/register',
+        component: Register,
+        meta: {
+            title: 'register'
         },
     },
     {

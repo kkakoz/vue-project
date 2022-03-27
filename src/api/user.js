@@ -1,8 +1,12 @@
 import {
-    request
-} from "."
-
+    post,
+    get
+} from '.';
 
 export const login = data => {
-    request("/users/login", data)
+    return post("/users/login", data)
+}
+
+export const register = data => {
+    return post("/users", data)
 }
