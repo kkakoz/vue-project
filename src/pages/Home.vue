@@ -1,15 +1,37 @@
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import VideoItem from '../components/VideoItem.vue'
 import Tabbar from '../components/Tabbar.vue';
 import router from '../routes/index'
+import { categories } from '../api/home.js'
+import { current } from '../api/user';
 
 const active = ref(0);
 
 const list = ref([]);
 const loading = ref(false);
 const finished = ref(false);
+
+var categorieList = reactive([{ id: 0, name: "最新" }])
+categories().then(res => {
+  res.forEach(element => {
+    console.log("loop", element)
+    categorieList.push(element)
+  });
+  console.log("list", categorieList)
+}).catch((err) => {
+  console.log(err)
+})
+
+current().then(res => {
+  console.log("user = ",res)
+})
+
+function onClickTab(index) {
+  console.log("click index", index)
+}
+
 
 const onLoad = () => {
   // 异步更新数据
@@ -49,8 +71,8 @@ function login() {
       <van-button @click="login">登录</van-button>
     </template>
   </van-nav-bar>
-  <van-tabs v-model:active="active">
-    <van-tab title="标签 1">
+  <van-tabs v-model:active="active" @click-tab="onClickTab">
+    <van-tab :title="category.name" v-for="category in categorieList">
       <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
         <VideoItem></VideoItem>
@@ -59,14 +81,9 @@ function login() {
         <VideoItem></VideoItem>
       </van-list>
     </van-tab>
-
-    <van-tab title="标签 2">内容 2</van-tab>
+    <!-- <van-tab title="标签 2">内容 2{{categorieList}}</van-tab>
     <van-tab title="标签 3">内容 3</van-tab>
-    <van-tab title="标签 4">内容 4</van-tab>
-    <van-tab title="标签 1">内容 1</van-tab>
-    <van-tab title="标签 2">内容 2</van-tab>
-    <van-tab title="标签 3">内容 3</van-tab>
-    <van-tab title="标签 4">内容 4</van-tab>
+    <van-tab title="标签 4">内容 4</van-tab>-->
   </van-tabs>
   <Tabbar></Tabbar>
 </template>

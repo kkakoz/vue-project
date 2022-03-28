@@ -10,3 +10,7 @@ export const login = data => {
 export const register = data => {
     return post("/users", data)
 }
+
+export const current = () => {
+    return get("/users/local")
+}

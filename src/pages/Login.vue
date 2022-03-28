@@ -10,7 +10,7 @@
                 :rules="[{ required: true, message: '请填写邮箱' }]"
             />
             <van-field
-                v-model="password"
+                v-model="credential"
                 type="password"
                 name="密码"
                 label="密码"
@@ -36,7 +36,7 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 const identifier = ref('123@qq.com');
-const password = ref('1');
+const credential = ref('123456');
 const onSubmit = (values) => {
     Toast.loading({
         message: '登录中...',
@@ -44,14 +44,19 @@ const onSubmit = (values) => {
         loadingType: 'spinner',
     });
 
-    res = login({ identifier: identifier.value, password: password.value, identity_type: 1, })
-    console.log(res)
-    console.log('submit', res);
+    login({
+        identifier: identifier.value,
+        credential: credential.value,
+        identity_type: 1,
+    }).then(res => {
+        store.commit("setUser", { username: identifier.value, token: res })
+        store.commit("setToken", res)
+        
+        console.log('user = ', store.state.user)
+        Toast.success("登录成功")
+        router.push("/")
+    })
 
-    store.commit("setUser", { username: identifier.value, password: password.value })
-    console.log('user = ', store.state.user)
-    Toast.success("登录成功")
-    router.push("/")
 };
 const toRegister = () => {
     router.push('/register')

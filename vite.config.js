@@ -17,7 +17,19 @@ export default defineConfig({
 		alias: {
 			'@': '/src'
 		}
-	}
+	},
+	server: {
+		hostname: '0.0.0.0',
+		port: 8080,
+		proxy: {
+			"/api": {
+			  target: "http://localhost:10012",
+			  changeOrigin: true,
+			  rewrite: (path) => path.replace(/^\/api/, ""),
+			},
+		  },
+
+    }
 	// css: {
 	// 	//css预处理
 	// 	preprocessorOptions: {

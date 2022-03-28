@@ -36,9 +36,7 @@ import { ref } from 'vue'
 import router from '../routes'
 import { register } from '../api/user.js'
 import { Toast } from 'vant';
-import { useStore } from 'vuex'
 
-const store = useStore()
 const identifier = ref('1234@qq.com');
 const name = ref("李四")
 const credential = ref('123456');
@@ -55,11 +53,10 @@ const onSubmit = (values) => {
         credential: credential.value,
         identity_type: 1,
     }).then(res => {
-        console.log("res", res)
         Toast.success("注册成功")
         router.push("/login")
     }).catch(err => {
-        console.log("login err", err)
+        // Toast.fail(data.msg)
     })
     // try {
     //     const res = register({ identifier: identifier.value, credential: credential.value, identity_type: 1, })
@@ -67,10 +64,8 @@ const onSubmit = (values) => {
     //     Toast.success("注册成功")
     //     router.push("/login")
     // } catch (e) {
-    //     console.log(e)
+    //     console.log("e = ",e)
     // }
-
-
 
 };
 const onClickLeft = () => history.back()
