@@ -8,7 +8,8 @@ const store = createStore({
     state() {
         return {
             count: 666,
-            user: null
+            user: null,
+            token: "",
         }
     },
     mutations: {
@@ -17,16 +18,13 @@ const store = createStore({
         },
         add(state) {
             state.count++
+        },
+        setToken(state, data) {
+            state.token = data
+            localStorage.setItem("user:token", data)
         }
     },
     actions: {
-        asyncAdd({
-            commit
-        }) {
-            setTimeout(() => {
-                commit('add')
-            }, 1000)
-        }
     }
 })
 

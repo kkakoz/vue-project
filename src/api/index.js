@@ -5,32 +5,28 @@ import {
 import {
     Toast
 } from 'vant';
-import { useStore } from 'vuex'
 // 设置接口超时时间
 axios.defaults.timeout = 60000;
 
 // 请求地址，这里是动态赋值的的环境变量，下一篇会细讲，这里跳过
 // @ts-ignore
-axios.defaults.baseURL = "http://localhost:10012/api";
+axios.defaults.baseURL = "http://localhost:11000/api";
 // import.meta.env.VITE_API_DOMAIN;
 
 //http request 拦截器
 axios.interceptors.request.use(
     config => {
-        // 配置请求头
-        const store = useStore()
-        console.log(store)
-        // if (store.state.token) {
-        //     console.log("if")
-        // } else {
-        //     console.log("elseif")
-        // }
-        // console.log("token = ", store.state.token?store.state.token:"")
-        config.headers = {
-            //'Content-Type':'application/x-www-form-urlencoded',   // 传参方式表单
-            'Content-Type': 'application/json;charset=UTF-8', // 传参方式json
-            // "X-Authorization": store.state.token?store.state.token:"" // 这里自定义配置，这里传的是token
-        };
+        let token = localStorage.getItem("user:token")
+        if (token) {
+            config.headers = {
+                'Content-Type': 'application/json;charset=UTF-8', // 传参方式json
+                "X-Authorization": token // 这里自定义配置，这里传的是token
+            };
+        } else {
+            config.headers = {
+                'Content-Type': 'application/json;charset=UTF-8', // 传参方式json
+            };
+        }
         return config;
     },
     error => {
@@ -68,6 +64,7 @@ axios.interceptors.response.use(
             // if (response.data.msg)
             // return Promise.resolve(response.data.msg);
         } else {
+            console.log("err", error)
             Toast("网络连接异常,请稍后再试!")
             return Promise.reject();
         }

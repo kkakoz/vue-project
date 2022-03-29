@@ -6,6 +6,7 @@ import Tabbar from '../components/Tabbar.vue';
 import router from '../routes/index'
 import { categories } from '../api/home.js'
 import { current } from '../api/user';
+import { useStore } from 'vuex'
 
 const active = ref(0);
 
@@ -22,10 +23,6 @@ categories().then(res => {
   console.log("list", categorieList)
 }).catch((err) => {
   console.log(err)
-})
-
-current().then(res => {
-  console.log("user = ",res)
 })
 
 function onClickTab(index) {

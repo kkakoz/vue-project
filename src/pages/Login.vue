@@ -33,9 +33,10 @@ import router from '../routes'
 import { login } from '../api/user.js'
 import { Toast } from 'vant';
 import { useStore } from 'vuex'
-
+import { current } from '../api/user';
+localStorage.clear()
 const store = useStore()
-const identifier = ref('123@qq.com');
+const identifier = ref('12345@qq.com');
 const credential = ref('123456');
 const onSubmit = (values) => {
     Toast.loading({
@@ -49,10 +50,10 @@ const onSubmit = (values) => {
         credential: credential.value,
         identity_type: 1,
     }).then(res => {
-        store.commit("setUser", { username: identifier.value, token: res })
         store.commit("setToken", res)
-        
-        console.log('user = ', store.state.user)
+        current().then(res => {
+            store.commit("setUser", res)
+        })
         Toast.success("登录成功")
         router.push("/")
     })
