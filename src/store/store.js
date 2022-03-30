@@ -15,6 +15,7 @@ const store = createStore({
     mutations: {
         setUser(state, data) {
             state.user = data
+            localStorage.setItem("user", JSON.stringify(data))
         },
         add(state) {
             state.count++
