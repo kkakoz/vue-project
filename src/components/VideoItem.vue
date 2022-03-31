@@ -7,10 +7,10 @@
       />
     </div>
     <div class="content">
-      <div class="title">我是一个标题</div>
+      <div class="title">{{video.name}}</div>
       <div class="list-info">
         <div>
-          <van-icon name="user-circle-o" />&ensp;张三
+          <van-icon name="user-circle-o" />&ensp;{{video.user_name}}
         </div>
         <div>
           <van-icon name="tv-o" />&ensp;1000人观看
@@ -23,6 +23,10 @@
 
 <script setup>
 import router from '../routes'
+import { defineProps } from 'vue'
+const props = defineProps({
+  video: Object
+})
 
 function to() {
   router.push("/video")

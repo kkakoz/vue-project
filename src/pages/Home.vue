@@ -5,6 +5,7 @@ import VideoItem from '../components/VideoItem.vue'
 import Tabbar from '../components/Tabbar.vue';
 import router from '../routes/index'
 import { categories } from '../api/home.js'
+import { videos } from '../api/video';
 import { current } from '../api/user';
 import { useStore } from 'vuex'
 
@@ -14,21 +15,29 @@ const list = ref([]);
 const loading = ref(false);
 const finished = ref(false);
 
-var categorieList = reactive([{ id: 0, name: "最新" }])
+const categorieList = reactive([{ id: 0, name: "最新" }])
 categories().then(res => {
   res.forEach(element => {
-    console.log("loop", element)
     categorieList.push(element)
   });
-  console.log("list", categorieList)
 }).catch((err) => {
   console.log(err)
 })
 
-function onClickTab(index) {
-  console.log("click index", index)
-}
+const videoList = reactive({ arr: [] })
 
+
+videos().then(res => {
+  videoList.arr = res
+})
+
+
+function onClickTab(index) {
+  console.log(index)
+  videos({ category_id: index.name }).then(res => {
+    videoList.arr = res
+  })
+}
 
 const onLoad = () => {
   // 异步更新数据
@@ -69,13 +78,10 @@ function login() {
     </template>
   </van-nav-bar>
   <van-tabs v-model:active="active" @click-tab="onClickTab">
-    <van-tab :title="category.name" v-for="category in categorieList">
+    <van-tab :name="category.id" :title="category.name" v-for="category in categorieList">
       <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
-        <VideoItem></VideoItem>
-        <VideoItem></VideoItem>
-        <VideoItem></VideoItem>
-        <VideoItem></VideoItem>
+        <VideoItem v-for="item in videoList.arr" :video="item"></VideoItem>
       </van-list>
     </van-tab>
     <!-- <van-tab title="标签 2">内容 2{{categorieList}}</van-tab>
