@@ -5,6 +5,6 @@ import {
 
 
 
-export const categories = () => {
+export const getCategories = () => {
     return get("/categories")
 }

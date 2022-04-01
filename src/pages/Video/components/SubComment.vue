@@ -29,7 +29,7 @@ let props = defineProps({
 })
 
 let emits = defineEmits("sub-comments")
-function moreSubComments (id) {
+function moreSubComments(id) {
     emits('sub-comments', id)
 }
 
@@ -48,20 +48,21 @@ const subComments = [
 .app {
     display: flex;
     .left {
-        width: 3.5em;
-        margin: 20px;
+        width: 2.5rem;
+        margin: 1.5rem 2rem 2rem 0;
     }
     .right {
-        margin: 0.5rem;
+        margin: 0.2rem;
         .user {
             margin: 1rem 0 0.3rem 0;
             font-size: 1.2rem;
         }
-        .note {
+        .time {
+            font-size: 0.5rem;
             color: #8a919f;
         }
         .content {
-            margin: 1em 0em;
+            margin: .5rem 0rem .5rem 0;
             font-size: 0.8em;
             color: #515767;
         }

@@ -13,7 +13,7 @@
           <van-icon name="user-circle-o" />&ensp;{{video.user_name}}
         </div>
         <div>
-          <van-icon name="tv-o" />&ensp;1000人观看
+          <van-icon name="tv-o" />&ensp;{{video.view_count}}
         </div>
       </div>
     </div>
@@ -22,11 +22,13 @@
 </template>
 
 <script setup>
-import router from '../routes'
+import router from '@/routes'
 import { defineProps } from 'vue'
 const props = defineProps({
   video: Object
 })
+
+console.log("video = ", props.video)
 
 function to() {
   router.push("/video/"+props.video.id)

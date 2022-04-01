@@ -30,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <div class=".reply-bottom"></div>
     </div>
 </template>
 
@@ -102,5 +103,21 @@ function like (id) {
 
 .iconfont- {
     font-size: 30px;
+}
+
+.reply-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-top: 1px solid #d8d8d8;
+  .write-btn {
+    width: 60%;
+  }
 }
 </style>
