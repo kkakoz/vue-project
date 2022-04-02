@@ -16,7 +16,7 @@
                 <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
                 <i class="icon iconfont icon-xinxi" @click="like(comment.id)"></i>
             </div>
-            <div class="sub_comments">
+            <div class="sub_comments" v-if="comment.subComments.length > 0">
                 <div v-for="comment in comment.subComments" class="sub">
                     <span class="click_name">{{ comment.name }}</span>
                     <span v-if="comment.targetId">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class=".reply-bottom"></div>
+        
     </div>
 </template>
 
@@ -105,19 +105,5 @@ function like (id) {
     font-size: 30px;
 }
 
-.reply-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 88px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  border-top: 1px solid #d8d8d8;
-  .write-btn {
-    width: 60%;
-  }
-}
+
 </style>

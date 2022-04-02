@@ -25,22 +25,10 @@ getCategories().then(res => {
   console.log(err)
 })
 
-// function onClickTab(index) {
-//   console.log("index=", index)
-//   videos({ category_id: index.name }).then(res => {
-//     videoList.arr = res
-//   })
-// }
-
 function login() {
   router.push('/login')
 }
 
-// import router from '../routes';
-
-// const toAbout = () => {
-//   router.push('./about');
-// };
 </script>
 
 <template>

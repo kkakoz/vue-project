@@ -10,7 +10,7 @@ axios.defaults.timeout = 60000;
 
 // 请求地址，这里是动态赋值的的环境变量，下一篇会细讲，这里跳过
 // @ts-ignore
-axios.defaults.baseURL = "http://localhost:11000/api";
+axios.defaults.baseURL = "http://localhost:10012/api";
 // import.meta.env.VITE_API_DOMAIN;
 
 //http request 拦截器
