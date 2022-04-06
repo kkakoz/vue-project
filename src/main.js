@@ -8,7 +8,8 @@ import './style/index.scss'
 import vue3videoPlay from "vue3-video-play"; // 引入组件
 import "vue3-video-play/dist/style.css"; // 引入css
 import 'mui-player/dist/mui-player.min.css'
-
+import 'comment-core-library/dist/css/style.min.css'
+// import 'comment-core-library/dist/CommentCoreLibrary.min'
 
 import {
     Tabbar,

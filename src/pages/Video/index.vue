@@ -1,6 +1,5 @@
 <template>
-  <h1>Video</h1>
-  <!-- <Video></Video> -->
+  <Video></Video>
   <van-tabs v-model:active="active">
     <van-tab title="详情">
     

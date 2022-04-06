@@ -10,6 +10,7 @@
   "dependencies": {
     "ali-oss": "^6.17.1",
     "axios": "^0.26.0",
+    "comment-core-library": "^0.11.1",
     "mui-player": "^1.6.0",
     "qs": "^6.10.3",
     "vant": "^3.4.5",
