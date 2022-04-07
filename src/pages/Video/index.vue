@@ -44,7 +44,7 @@
         />
       <van-button class="post-btn">发布</van-button>-->
 
-      <!-- <van-popup v-model:show="show">
+       <van-popup v-model:show="show">
         <van-field
           class="post-field"
           v-model="message"
@@ -55,8 +55,8 @@
           placeholder="请输入留言"
           show-word-limit
         />
-      <van-button class="post-btn">发布</van-button>-->
-      <!-- </van-popup> -->
+      <van-button class="post-btn">发布</van-button>
+       </van-popup>
     </van-tab>
     <van-tab disabled>
       <template #title>

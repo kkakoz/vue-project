@@ -16,16 +16,18 @@
   <van-button square type="primary" @click="insert">insert</van-button>
 </template>
 <script setup>
-import { reactive, onUpdated, onMounted } from "vue";
-import { defineProps } from 'vue';
+import { reactive, onUpdated, onMounted, defineProps } from "vue";
 import MuiPlayer from 'mui-player'
 // import {CommentManager} from 'comment-core-library/dist/CommentCoreLibrary'
 
 let props = defineProps({
-  videoUrl: String
+  videoUrl: String,
+  showDanmu: Boolean,
 })
 
 var CM
+
+let iVal
 
 let start = () => {
   var startTime = Date.now(); // 设定起始时间
@@ -37,6 +39,7 @@ let start = () => {
     var playTime = Date.now() - startTime; // 用起始时间和现在时间的差模拟播放
     CM.time(playTime); // 通报播放时间
     // $('txPlayPos').textContent = playTime; // 显示播放时间
+    console.log("now", playTime)
   }, 100); // 模拟播放器每 100ms 通报播放时间
 }
 
