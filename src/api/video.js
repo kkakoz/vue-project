@@ -4,10 +4,10 @@ import {
 } from '.';
 
 export const getVideos = data => {
-    return get(`/videos`, data)
+    return get(`/video/list`, data)
 }
 
-export const getVideo = videoId => {
-    return get(`/videos/${videoId}`)
+export const getVideo = data => {
+    return get(`/video/get`)
 }
 
