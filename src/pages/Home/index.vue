@@ -37,18 +37,19 @@ function login() {
 <template>
   <van-nav-bar>
     <template #left>
-      <van-image
+      <van-image v-if="$store.state.user"
           round
-          width="0.3rem"
-          height="0.3rem"
-          src="https://unpkg.com/@vant/assets/cat.jpeg"
+          width="10vw"
+          height="10vw"
+          :src="$store.state.user.avatar"
       />
+<!--      https://unpkg.com/@vant/assets/cat.jpeg-->
       <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" />
     </template>
     <template #right>
 
-      <div class="login">
-        <a href="">登录</a>
+      <div class="login bg-blue-400">
+        登录
       </div>
     </template>
   </van-nav-bar>
@@ -67,7 +68,7 @@ function login() {
 
 .login {
   padding: .05rem;
-  background-color: #e8e8e8;
+
   border-radius: 50%;
 }
 

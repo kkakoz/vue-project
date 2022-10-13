@@ -36,8 +36,8 @@ import { useStore } from 'vuex'
 import { current } from '../api/user';
 localStorage.clear()
 const store = useStore()
-const identifier = ref('12345@qq.com');
-const credential = ref('123456');
+const identifier = ref('a@b.com');
+const credential = ref('ttt');
 const onSubmit = (values) => {
     Toast.loading({
         message: '登录中...',

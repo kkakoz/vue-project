@@ -81,7 +81,7 @@ import { getVideo } from '@/api/video';
 
 const video = ref({})
 
-getVideo({videoId: props.videoId}).then(res => {
+getVideo({video_id: props.videoId}).then(res => {
   video.value = res
 })
 const props = defineProps({

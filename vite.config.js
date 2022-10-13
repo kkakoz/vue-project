@@ -18,6 +18,13 @@ export default defineConfig({
 			'@': '/src'
 		}
 	},
+	// css: {
+	// 	loaderOptions: {
+	// 		postcss: {
+	// 			plugins: [require('tailwindcss'), require('autoprefixer')]
+	// 		}
+	// 	}
+	// },
 	server: {
 		hostname: '0.0.0.0',
 		port: 8080,

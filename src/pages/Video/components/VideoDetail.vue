@@ -1,7 +1,7 @@
 <template>
     <div class="title">{{video.name}}</div>
     <div class="detail">{{video.brief}}</div>
-
+    <State/>
     <div class="eps_list">
         <div class="eps" v-for="eps in video.episodes">{{ eps.name }}</div>
         <div class="eps" >第二季</div>
@@ -14,6 +14,7 @@
 
 <script setup>
 import { ref, defineProps } from 'vue';
+import State from "./State.vue";
 
 const props = defineProps({
   videoId: Number,

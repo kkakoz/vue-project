@@ -8,6 +8,9 @@ export const getVideos = data => {
 }
 
 export const getVideo = data => {
-    return get(`/video/get`)
+    return get(`/video/get`,data)
 }
 
+export const state = data => {
+    return get(`/video/state`, data)
+}

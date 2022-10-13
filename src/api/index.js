@@ -5,6 +5,7 @@ import {
 import {
     Toast
 } from 'vant';
+
 // 设置接口超时时间
 axios.defaults.timeout = 60000;
 

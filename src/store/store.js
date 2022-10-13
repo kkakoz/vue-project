@@ -12,6 +12,11 @@ const store = createStore({
             token: "",
         }
     },
+    getters: {
+        user(state) {
+            return state.user
+        }
+    },
     mutations: {
         setUser(state, data) {
             state.user = data
@@ -25,8 +30,7 @@ const store = createStore({
             localStorage.setItem("user:token", data)
         }
     },
-    actions: {
-    }
+    actions: {}
 })
 
 export default store

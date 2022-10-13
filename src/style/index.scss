@@ -1,2 +1,6 @@
 @import './base.scss';
 @import './iconfont.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
