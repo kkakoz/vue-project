@@ -3,14 +3,14 @@
     <van-form @submit="onSubmit">
         <van-cell-group inset>
             <van-field
-                v-model="identifier"
+                v-model="name"
                 name="邮箱"
                 label="邮箱"
                 placeholder="邮箱"
                 :rules="[{ required: true, message: '请填写邮箱' }]"
             />
             <van-field
-                v-model="credential"
+                v-model="password"
                 type="password"
                 name="密码"
                 label="密码"
@@ -36,8 +36,8 @@ import { useStore } from 'vuex'
 import { current } from '../api/user';
 localStorage.clear()
 const store = useStore()
-const identifier = ref('a@b.com');
-const credential = ref('ttt');
+const name = ref('a@b.com');
+const password = ref('ttt');
 const onSubmit = (values) => {
     Toast.loading({
         message: '登录中...',
@@ -46,11 +46,11 @@ const onSubmit = (values) => {
     });
 
     login({
-        identifier: identifier.value,
-        credential: credential.value,
+      name: name.value,
+      password: password.value,
         identity_type: 1,
     }).then(res => {
-        store.commit("setToken", res)
+        store.commit("setToken", res.token)
         current().then(res => {
             store.commit("setUser", res)
         })

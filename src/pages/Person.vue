@@ -1,11 +1,12 @@
 <template>
-  <div class="header">
-    <div v-if="user" class="user-info-wrap">
+  <div class="p-10">
+    <div v-if="user" class="text-center">
       <div class="user">
         <van-image
           width="100"
           height="100"
-          src="https://cdn.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          round
+          :src="user.avatar"
         />
         <div class="username">{{ user.name }}</div>
       </div>
@@ -50,9 +51,6 @@
 import router from '../routes';
 import Tabbar from '../components/Tabbar.vue';
 import { ref, reactive, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import User from '../components/User.vue';
-const store = useStore()
 
 const user = JSON.parse(localStorage.getItem("user"))
 

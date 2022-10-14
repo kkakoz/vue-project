@@ -11,9 +11,9 @@
       <div id="mui-player"></div>
     </div>
   </div>
-  <van-button square type="primary" @click="start">start</van-button>
-  <van-button square type="primary" @click="load">load</van-button>
-  <van-button square type="primary" @click="insert">insert</van-button>
+<!--  <van-button square type="primary" @click="start">start</van-button>-->
+<!--  <van-button square type="primary" @click="load">load</van-button>-->
+<!--  <van-button square type="primary" @click="insert">insert</van-button>-->
 </template>
 <script setup>
 import { reactive, onUpdated, onMounted, defineProps } from "vue";

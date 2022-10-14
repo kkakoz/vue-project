@@ -1,14 +1,10 @@
-
 <script setup>
 import { ref, reactive } from 'vue';
 import VideoItem from '@/components/VideoItem.vue'
 import Tabbar from '@/components/Tabbar.vue';
 import router from '@/routes/index'
 import {  getCategories } from '@/api/home.js'
-import { current } from '@/api/user';
-import { useStore } from 'vuex'
 import VideoList from './component/video-list.vue'
-
 
 const active = ref(0);
 
@@ -37,18 +33,18 @@ function login() {
 <template>
   <van-nav-bar>
     <template #left>
-      <van-image v-if="$store.state.user"
+      <van-image v-if="$store.getters.user"
           round
           width="10vw"
           height="10vw"
-          :src="$store.state.user.avatar"
+          :src="$store.getters.user.avatar"
       />
 <!--      https://unpkg.com/@vant/assets/cat.jpeg-->
       <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" />
     </template>
     <template #right>
 
-      <div class="login bg-blue-400">
+      <div v-if="!$store.getters.user" class="login text-blue-400" @click="login">
         登录
       </div>
     </template>

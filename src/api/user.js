@@ -4,13 +4,17 @@ import {
 } from '.';
 
 export const login = data => {
-    return post("/users/login", data)
+    return post("/user/login", data)
 }
 
 export const register = data => {
-    return post("/users", data)
+    return post("/user/register", data)
 }
 
 export const current = () => {
-    return get("/users/local")
+    return get("/user/current")
+}
+
+export const follow = (data) => {
+    return post("/follow/add", data)
 }

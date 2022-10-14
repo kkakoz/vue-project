@@ -1,28 +1,27 @@
 <template>
-  <Video></Video>
+  <Video ></Video>
   <van-tabs v-model:active="active">
     <van-tab title="详情">
-    
-      <VideoDetail :videoId="videoId" :video="video"></VideoDetail>
+      <VideoDetail v-if="video" :videoId="videoId" :video="video"/>
     </van-tab>
     <van-tab title="评论">
       <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell v-for="comment in comments" :key="item" :title="item">
-          <Comment :comment="comment" @sub-comments="subComments" />
+          <Comment :comment="comment"/>
         </van-cell>
       </van-list>
-      <van-action-sheet v-model:show="moreComment">
-        <van-list
-          v-model:loading="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-        >
-          <van-cell v-for="comment in comments" :key="item" :title="item">
-            <SubComment :comment="comment" @sub-comments="subComments" />
-          </van-cell>
-        </van-list>
-      </van-action-sheet>
+<!--      <van-action-sheet v-model:show="moreComment">-->
+<!--        <van-list-->
+<!--          v-model:loading="loading"-->
+<!--          :finished="finished"-->
+<!--          finished-text="没有更多了"-->
+<!--          @load="onLoad"-->
+<!--        >-->
+<!--          <van-cell v-for="comment in comments" :key="item" :title="item">-->
+<!--            <SubComment :comment="comment" @sub-comments="subComments" />-->
+<!--          </van-cell>-->
+<!--        </van-list>-->
+<!--      </van-action-sheet>-->
       <div class="reply-bottom">
         <van-field
           class="post-field"
@@ -44,7 +43,7 @@
         />
       <van-button class="post-btn">发布</van-button>-->
 
-       <van-popup v-model:show="show">
+       <van-popup >
         <van-field
           class="post-field"
           v-model="message"
@@ -73,20 +72,25 @@
 import Video from '@/components/Video.vue'
 import VideoDetail from './components/VideoDetail.vue'
 import Comment from './components/Comment.vue'
-
 import { ref, defineProps, reactive } from 'vue';
 import SubComment from './components/SubComment.vue';
 import { getVideo } from '@/api/video';
 
-
-const video = ref({})
-
-getVideo({video_id: props.videoId}).then(res => {
-  video.value = res
-})
 const props = defineProps({
   videoId: Number
 })
+
+
+
+let video = ref(undefined)
+
+
+getVideo({video_id: props.videoId}).then(res => {
+  console.log("video res = ",res)
+  video.value = res
+})
+
+
 
 const active = ref(0);
 
@@ -100,39 +104,7 @@ const comments = [
       { id: "2", name: "李四", content: "123456", targetId: 0, targetName: "" }],
     content: "我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行"
   },
-  {
-    id: 1,
-    username: "张三",
-    avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image",
-    subComments: [],
-    content: "我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行"
-  },
-  {
-    id: 1,
-    username: "张三",
-    avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image",
-    subComments: [
-      { id: "1", name: "李四", content: "123456", targetId: 2, targetName: "王五" },
-      { id: "2", name: "李四", content: "123456", targetId: 0, targetName: "" }],
-    content: "我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行"
-  },
-  {
-    id: 1,
-    username: "张三",
-    avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image",
-    subComments: [
-      { id: "1", name: "李四", content: "123456", targetId: 2, targetName: "王五" },
-      { id: "2", name: "李四", content: "123456", targetId: 0, targetName: "" }],
-    content: "我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行我觉得不行"
-  },
-
 ]
-
-const moreComment = ref(false)
-
-function subComments(id) {
-  moreComment.value = true
-}
 
 </script>
 

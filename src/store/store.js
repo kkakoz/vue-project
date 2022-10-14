@@ -7,14 +7,30 @@ const TOKEN_KEY = "TOKEN_KEY"
 const store = createStore({
     state() {
         return {
-            count: 666,
             user: null,
             token: "",
         }
     },
     getters: {
         user(state) {
-            return state.user
+            if (state.user) {
+                return state.user
+            }
+            let user = localStorage.getItem("user")
+            if (user) {
+                return JSON.parse(user)
+            }
+            return null
+        },
+        token(state) {
+            if (state.token) {
+                return state.token
+            }
+            let token = localStorage.getItem("user:token")
+            if (token) {
+                return token
+            }
+            return null
         }
     },
     mutations: {
@@ -22,12 +38,15 @@ const store = createStore({
             state.user = data
             localStorage.setItem("user", JSON.stringify(data))
         },
-        add(state) {
-            state.count++
-        },
         setToken(state, data) {
             state.token = data
             localStorage.setItem("user:token", data)
+        },
+        logout(state) {
+            localStorage.removeItem("user")
+            localStorage.removeItem("user:token")
+            state.user = null
+            state.token = null
         }
     },
     actions: {}
