@@ -27,7 +27,7 @@ export default defineConfig({
 	// },
 	server: {
 		hostname: '0.0.0.0',
-		port: 10055,
+		port: 10555,
 		proxy: {
 			"/api": {
 			  target: "http://localhost:10012",

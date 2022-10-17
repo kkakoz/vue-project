@@ -14,3 +14,4 @@ export const getVideo  = data => {
 export const videoUserState = data => {
     return get(`/video/user-state`, data)
 }
+

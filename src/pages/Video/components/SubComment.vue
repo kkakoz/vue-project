@@ -1,11 +1,11 @@
 <template>
     <div class="app">
         <div class="left">
-            <van-image fit="cover" width="3.5rem" round :src="comment.avatar" />
+            <van-image fit="cover" width="3.5rem" round :src="subComment.avatar" />
         </div>
         <div class="right">
             <div class="user">
-                <span>{{ comment.username }}</span>
+                <span>{{ subComment.username }}</span>
             </div>
             <div class="time">
                 <span class="note">昨天</span>
@@ -13,8 +13,8 @@
 
             <div class="content">{{ content }}</div>
             <div class="actions">
-                <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
-                <i class="icon iconfont icon-xinxi" @click="like(comment.id)"></i>
+                <i class="icon iconfont icon-zantong" @click="like(subComment.id)"></i>
+                <i class="icon iconfont icon-xinxi" @click="like(subComment.id)"></i>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
 import { defineProps, defineEmits } from 'vue';
 
 let props = defineProps({
-    comment: Object
+    subComment: Object
 })
 
 let emits = defineEmits("sub-comments")
@@ -33,7 +33,7 @@ function moreSubComments(id) {
     emits('sub-comments', id)
 }
 
-console.log(props.comment)
+console.log(props.subComment)
 
 const avatar = "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image"
 

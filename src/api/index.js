@@ -5,30 +5,37 @@ import {
 import {
     Toast
 } from 'vant';
+import {snake2camel, camel2snake} from './util';
 
 // 设置接口超时时间
 axios.defaults.timeout = 60000;
 
 // 请求地址，这里是动态赋值的的环境变量，下一篇会细讲，这里跳过
 // @ts-ignore
-axios.defaults.baseURL = "http://localhost:10012/api/app";
+axios.defaults.baseURL = "http://localhost:10999/api/app";
 // import.meta.env.VITE_API_DOMAIN;
 
 //http request 拦截器
 axios.interceptors.request.use(
-    config => {
+    req => {
         let token = localStorage.getItem("user:token")
         if (token) {
-            config.headers = {
+            req.headers = {
                 'Content-Type': 'application/json;charset=UTF-8', // 传参方式json
                 "Authorization": token // 这里自定义配置，这里传的是token
             };
         } else {
-            config.headers = {
+            req.headers = {
                 'Content-Type': 'application/json;charset=UTF-8', // 传参方式json
             };
         }
-        return config;
+        if (req.params) {
+            req.params = camel2snake(req.params)
+        }
+        if (req.data) {
+            req.data = camel2snake(req.data)
+        }
+        return req;
     },
     error => {
         return Promise.reject(error);
@@ -48,6 +55,7 @@ axios.interceptors.response.use(
         // return response
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
         // 否则的话抛出错误
+        response.data = snake2camel(response.data)
         return Promise.resolve(response.data);
     },
     error => {

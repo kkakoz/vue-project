@@ -1,9 +1,10 @@
 <template>
-  <User v-if="states" :user="video.user" :brief="brief" :followed="states.followed_creator" />
+  <User v-if="states" :user="video.user" :brief="brief" :followed="states.followedCreator" />
   <div class="p-4">
     <div class="text-2xl">{{ video.name }}</div>
     <div class="mt-2">{{ video.brief }}</div>
-    <State v-if="states" :states="states"/>
+    <State v-if="states" :states="states" :videoId="video.id"/>
+<!--    v-if="video.resources.length > 1"-->
     <div class="eps_list">
       <div class="eps" v-for="eps in video.resources">{{ eps.name }}</div>
       <div class="eps">第二季</div>
@@ -30,12 +31,12 @@ const props = defineProps({
   video: Object
 })
 
-let brief = ref(`${props.video.user.fans_count}粉丝`)
+let brief = ref(`${props.video.user.fansCount}粉丝`)
 
 const states = ref(undefined)
 
 if (store.getters.user) {
-  videoUserState({video_id: props.videoId}).then(res => {
+  videoUserState({videoId: props.videoId}).then(res => {
     console.log("state res = ", res)
     states.value = res
   }).catch((e) => {

@@ -39,18 +39,19 @@ const videoList = reactive({list: []})
 const onLoad = () => {
   // 异步更新数据
   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-  getVideos({category_id: props.categoryId, last_value: lastId}).then(res => {
+  getVideos({categoryId: props.categoryId, lastValue: lastId}).then(res => {
     var videos = res.data
     videos.forEach(element => {
       videoList.list.push(element)
     });
     if (videos.length > 0) {
       console.log("is loading")
-      loading.value = false;
+      loading.value = true;
       lastId = videos[videos.length - 1].id
       console.log(lastId)
     } else {
       console.log("is finshed")
+      loading.value = false;
       finished.value = true;
     }
   })

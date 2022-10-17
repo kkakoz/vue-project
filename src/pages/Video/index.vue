@@ -92,17 +92,20 @@ import { ref, defineProps, reactive } from 'vue';
 import SubComment from './components/SubComment.vue';
 import { getVideo } from '@/api/video';
 
-
 const props = defineProps({
   videoId: Number
 })
 
+
+
 let video = ref(undefined)
 
-getVideo({video_id: props.videoId}).then(res => {
+
+getVideo({videoId: props.videoId}).then(res => {
   console.log("video res = ",res)
   video.value = res
 })
+
 
 
 const active = ref(0);
@@ -143,6 +146,17 @@ const danmuMsg = ref("")
   bottom: 0;
   left: 0;
   right: 0;
+  // height: 3rem;
+  max-height: 10rem;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-top: 1px solid #d8d8d8;
+  .write-btn {
+    width: 60%;
+  }
 }
 
 .icon-danmu {

@@ -1,6 +1,6 @@
 <template>
   <div class="p-10">
-    <div v-if="user" class="text-center">
+    <div v-if="$store.getters.user" class="text-center">
       <div class="user">
         <van-image
           width="100"
@@ -41,7 +41,7 @@
   <van-cell-group>
     <van-cell title="消息通知" />
     <van-cell title="上传视频" @click="upload" />
-    <van-cell v-if="user" title="退出"></van-cell>
+    <van-cell v-if="$store.getters.user" title="退出"></van-cell>
   </van-cell-group>
 
   <Tabbar></Tabbar>
@@ -51,14 +51,6 @@
 import router from '../routes';
 import Tabbar from '../components/Tabbar.vue';
 import { ref, reactive, onMounted } from 'vue'
-
-const user = JSON.parse(localStorage.getItem("user"))
-
-console.log("user = ",user)
-
-function upload() {
-  router.push('/upload')
-}
 
 </script>
 

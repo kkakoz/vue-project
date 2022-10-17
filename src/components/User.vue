@@ -12,7 +12,7 @@
         <div>{{ brief }}</div>
       </div>
     </div>
-    <div class="p-2">
+    <div v-if="$store.getters.user && $store.getters.user.id != user.id" class="p-2">
       <van-button v-if="curFollowed" color="#D1D5DB" size="small" @click="unFollowUser">已关注</van-button>
       <van-button v-else color="#60A5FA" size="small" @click="followUser">+ 关注</van-button>
     </div>
