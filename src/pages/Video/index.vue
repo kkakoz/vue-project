@@ -23,48 +23,64 @@
 <!--        </van-list>-->
 <!--      </van-action-sheet>-->
       <div class="reply-bottom">
-        <van-field
-          class="post-field"
-          v-model="message"
-          rows="2"
-          autosize
-          type="textarea"
-          maxlength="50"
-          show-word-limit
-        />
-        <i class="icon iconfont icon-fabu" @click="like(comment.id)"></i>
-      </div>
-      <!-- <van-field 
-          v-model="message"
-          rows="2"
-          autosize
-          type="textarea"
-          placeholder="请输入留言"
-        />
-      <van-button class="post-btn">发布</van-button>-->
+        <div class="flex flex-row">
+          <van-field
+              v-model="commentMsg"
+              rows="1"
+              autosize
+              type="textarea"
+              placeholder="请输入评论"
+          />
 
-       <van-popup >
-        <van-field
-          class="post-field"
-          v-model="message"
-          rows="2"
-          autosize
-          type="textarea"
-          maxlength="500"
-          placeholder="请输入留言"
-          show-word-limit
-        />
-      <van-button class="post-btn">发布</van-button>
-       </van-popup>
+          <div class="p-3">
+            <i class="icon iconfont icon-fabu text-2xl" @click="like(comment.id)"></i>
+          </div>
+        </div>
+      </div>
+<!--       <van-popup >-->
+<!--         <div class="flex flex-row">-->
+<!--           <van-field-->
+<!--               v-model="commentMsg"-->
+<!--               rows="1"-->
+<!--               autosize-->
+<!--               type="textarea"-->
+<!--               placeholder="请输入评论"-->
+<!--           />-->
+
+<!--           <div class="p-3">-->
+<!--             <i class="icon iconfont icon-fabu text-2xl" @click="like(comment.id)"></i>-->
+<!--           </div>-->
+<!--         </div>-->
+<!--       </van-popup>-->
     </van-tab>
     <van-tab disabled>
       <template #title>
         <span class="danmu">
-          <van-button round size="small">发送弹幕</van-button>
+
+          <van-button round size="small" @click="sendDanmuClick">发送弹幕</van-button>
           <i class="icon iconfont icon-danmu"></i>
         </span>
       </template>
     </van-tab>
+
+    <van-popup
+        v-model:show="sendDanmu"
+        position="bottom"
+    >
+      <div class="flex flex-row">
+      <van-field
+          v-model="danmuMsg"
+          rows="1"
+          autosize
+          type="textarea"
+          placeholder="请输入弹幕"
+      />
+
+        <div class="p-3">
+        <i class="icon iconfont icon-fabu text-2xl" @click="like(comment.id)"></i>
+        </div>
+      </div>
+    </van-popup>
   </van-tabs>
 </template>
 
@@ -76,20 +92,17 @@ import { ref, defineProps, reactive } from 'vue';
 import SubComment from './components/SubComment.vue';
 import { getVideo } from '@/api/video';
 
+
 const props = defineProps({
   videoId: Number
 })
 
-
-
 let video = ref(undefined)
-
 
 getVideo({video_id: props.videoId}).then(res => {
   console.log("video res = ",res)
   video.value = res
 })
-
 
 
 const active = ref(0);
@@ -106,6 +119,21 @@ const comments = [
   },
 ]
 
+var commentMsg = ref("")
+
+
+const sendDanmu = ref(false)
+
+const sendDanmuClick = () => {
+  sendDanmu.value = true
+}
+
+const sendDanmuFunc = () => {
+
+}
+
+const danmuMsg = ref("")
+
 </script>
 
 
@@ -115,17 +143,6 @@ const comments = [
   bottom: 0;
   left: 0;
   right: 0;
-  // height: 3rem;
-  max-height: 10rem;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  border-top: 1px solid #d8d8d8;
-  .write-btn {
-    width: 60%;
-  }
 }
 
 .icon-danmu {
