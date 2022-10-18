@@ -107,6 +107,30 @@
 import DPlayer from 'dplayer';
 import {onMounted} from "vue";
 
+let props = defineProps({
+  video: Object,
+  resourceId: Number
+})
+
+let video = props.video
+
+let resource = undefined
+
+if (video.resources.length === 1) {
+  resource = video.resources[0]
+}
+if (video.resources.length > 1) {
+  if (props.resourceId) {
+    props.video.resources.forEach((ele) => {
+      if (ele.id === props.ResourceId) {
+        resource = ele
+      }
+    })
+  }
+  resource = video.resources[0]
+}
+
+
 let dp = null
 
 onMounted(() => {
@@ -121,8 +145,8 @@ onMounted(() => {
     // logo: 'logo.png',
     volume: 0.7,
     video: {
-      url: 'http://img.ksbbs.com/asset/Mon_1605/25d705200a4eab4.mp4',
-      pic: 'dplayer.png',
+      url: resource.url,
+      pic: video.cover,
       type: 'auto',
     },
     danmaku: {

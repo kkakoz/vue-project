@@ -15,3 +15,6 @@ export const videoUserState = data => {
     return get(`/video/user-state`, data)
 }
 
+export const getRecommendVideos = data => {
+    return get(`/video/recommend`, data)
+}

@@ -1,5 +1,5 @@
 <template>
-  <Video ></Video>
+  <Video  :video="video" ></Video>
   <van-tabs v-model:active="active">
     <van-tab title="详情">
       <VideoDetail v-if="video" :videoId="videoId" :video="video"/>
@@ -37,21 +37,6 @@
           </div>
         </div>
       </div>
-<!--       <van-popup >-->
-<!--         <div class="flex flex-row">-->
-<!--           <van-field-->
-<!--               v-model="commentMsg"-->
-<!--               rows="1"-->
-<!--               autosize-->
-<!--               type="textarea"-->
-<!--               placeholder="请输入评论"-->
-<!--           />-->
-
-<!--           <div class="p-3">-->
-<!--             <i class="icon iconfont icon-fabu text-2xl" @click="like(comment.id)"></i>-->
-<!--           </div>-->
-<!--         </div>-->
-<!--       </van-popup>-->
     </van-tab>
     <van-tab disabled>
       <template #title>
@@ -93,17 +78,18 @@ import SubComment from './components/SubComment.vue';
 import { getVideo } from '@/api/video';
 
 const props = defineProps({
-  videoId: Number
+  videoId: Number,
+  ResourceId: Number,
 })
 
+const video = ref(undefined)
 
-
-let video = ref(undefined)
-
+// const resource = ref(undefined)
 
 getVideo({videoId: props.videoId}).then(res => {
   console.log("video res = ",res)
   video.value = res
+
 })
 
 

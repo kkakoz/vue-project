@@ -3,19 +3,20 @@
   <div class="p-4">
     <div class="text-2xl">{{ video.name }}</div>
     <div class="mt-2">{{ video.brief }}</div>
-    <State v-if="states" :states="states" :videoId="video.id"/>
+    <State v-if="states" :states="states" :video="video"/>
 <!--    v-if="video.resources.length > 1"-->
-    <div class="eps_list">
-      <div class="eps" v-for="eps in video.resources">{{ eps.name }}</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
-      <div class="eps">第二季</div>
+    <div v-if="video.resources.length >1" class="eps_list">
+      <div class="eps shadow-md " v-for="eps in video.resources">
+        {{ eps.name }}
+      </div>
+
     </div>
   </div>
+  <van-list>
+    <video-item v-for="video in recommendVideos" :video="video">
+
+    </video-item>
+  </van-list>
 </template>
 
 <script setup>
@@ -23,11 +24,11 @@ import {ref, defineProps, toRefs, computed} from 'vue';
 import State from "./State.vue";
 import User from "@/components/User.vue";
 import {useStore} from "vuex";
-import { videoUserState } from '@/api/video';
+import { videoUserState, getRecommendVideos } from '@/api/video';
+import VideoItem from "@/components/VideoItem.vue";
 const store = useStore()
 
 const props = defineProps({
-  videoId: Number,
   video: Object
 })
 
@@ -36,7 +37,7 @@ let brief = ref(`${props.video.user.fansCount}粉丝`)
 const states = ref(undefined)
 
 if (store.getters.user) {
-  videoUserState({videoId: props.videoId}).then(res => {
+  videoUserState({videoId: props.video.id}).then(res => {
     console.log("state res = ", res)
     states.value = res
   }).catch((e) => {
@@ -45,6 +46,17 @@ if (store.getters.user) {
 } else {
   states.value = {followed_creator:false,user_like:false,user_dis_like:false,user_collection:false,user_shared:false}
 }
+
+let recommendVideos = ref([])
+
+getRecommendVideos({videoId: props.video.id}).then((res) => {
+
+  res.forEach((ele) => {
+    recommendVideos.value.push(ele)
+  })
+}).catch((e) => {
+  console.log(e)
+})
 
 </script>
 
@@ -64,7 +76,7 @@ if (store.getters.user) {
   .eps {
     margin-right: 4vw;
     // border: 3px solid white;
-    border-radius: 5px;
+    border-radius: 2vw;
     padding: 10px;
     outline: .1rem solid #ccc;
     outline-offset: -1px;

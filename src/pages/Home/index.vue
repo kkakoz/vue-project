@@ -10,13 +10,13 @@ const active = ref(0);
 
 let categoryId = 0
 
-const categoryList = reactive([{ id: 0, name: "最新" }])
+const categoryList = ref([{ id: 0, name: "最新" }])
 
 getCategories().then(res => {
   let data = res.data
   console.log("res = ",res)
   data.forEach(element => {
-    categoryList.push(element)
+    categoryList.value.push(element)
   });
 }).catch((err) => {
   throw err
