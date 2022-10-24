@@ -1,7 +1,7 @@
 <template>
     <div class="app">
         <div class="left">
-            <van-image fit="cover" width="3.5rem" round :src="subComment.avatar" />
+            <van-image fit="cover" width="3.5rem" round :src="subComment.fromAvatar" />
         </div>
         <div class="right">
             <div class="user">
@@ -28,12 +28,7 @@ let props = defineProps({
     subComment: Object
 })
 
-let emits = defineEmits("sub-comments")
-function moreSubComments(id) {
-    emits('sub-comments', id)
-}
-
-console.log(props.subComment)
+console.log("sub = ", props.subComment)
 
 const avatar = "https://p9-passport.byteacctimg.com/img/user-avatar/8b472f29b528ad097a78d288ef895900~300x300.image"
 
@@ -87,9 +82,6 @@ const subComments = [
     }
 }
 
-.click_name {
-    color: #0681d0;
-}
 
 .van-divider--hairline {
     margin: 4px 0;

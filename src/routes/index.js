@@ -10,6 +10,7 @@ import Video from '../pages/Video/index.vue'
 import Home from '../pages/Home/index.vue'
 import Person from '../pages/Person.vue'
 import Upload from '../pages/Upload.vue'
+import User from '../pages/User/index.vue'
 
 const routes = [{
         path: '/',
@@ -57,6 +58,13 @@ const routes = [{
         component: Register,
         meta: {
             title: 'register'
+        },
+    },
+    {
+        path: '/user',
+        component: User,
+        meta: {
+            title: 'user'
         },
     },
     {
