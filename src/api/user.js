@@ -18,3 +18,7 @@ export const current = () => {
 export const follow = (data) => {
     return post("/follow/add", data)
 }
+
+export const getUser = (data) => {
+    return get("/user/get", data)
+}

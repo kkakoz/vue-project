@@ -3,7 +3,6 @@
     <div id="dplayer" class="play-root" ></div>
   </div>
 
-  <!--  <Video  :video="video" ></Video>-->
   <van-tabs v-model:active="active">
     <van-tab title="详情">
       <VideoDetail v-if="video" :videoId="video.id" :video="video"/>
@@ -11,26 +10,6 @@
 
     <van-tab title="评论">
       <CommentList v-if="video" :videoId="video.id"></CommentList>
-<!--      <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">-->
-<!--        <van-cell v-for="comment in comments" :key="item" :title="item">-->
-<!--          <Comment :comment="comment"/>-->
-<!--        </van-cell>-->
-<!--      </van-list>-->
-<!--      <div class="reply-bottom">-->
-<!--        <div class="flex flex-row min-w-full">-->
-<!--          <van-field-->
-<!--              v-model="commentMsg"-->
-<!--              rows="1"-->
-<!--              autosize-->
-<!--              type="textarea"-->
-<!--              placeholder="请输入评论"-->
-<!--          />-->
-
-<!--          <div class="p-3">-->
-<!--            <i class="icon iconfont icon-fabu text-2xl" @click="sendVideoComment(video.id)"></i>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
     </van-tab>
     <van-tab disabled>
       <template #title>
@@ -68,18 +47,21 @@ import VideoDetail from './components/VideoDetail.vue'
 import { ref, defineProps, reactive } from 'vue';
 import { getVideo } from '@/api/video';
 import DPlayer from 'dplayer';
-import {onMounted} from "vue";
 import CommentList from "./components/CommentList.vue";
 
 
 const props = defineProps({
   videoId: Number,
-  ResourceId: Number,
+  resourceId: Number,
 })
+
+const videoId = Number(props.videoId)
+
+const resourceId = Number(props.videoId)
 
 const video = ref(undefined)
 
-getVideo({videoId: props.videoId}).then(res => {
+getVideo({videoId}).then(res => {
   console.log("video res = ",res)
   video.value = res
   newPlayer()
@@ -108,9 +90,9 @@ const newPlayer =() => {
     resource = curVideo.resources[0]
   }
   if (curVideo.resources.length > 1) {
-    if (props.resourceId) {
-      props.video.resources.forEach((ele) => {
-        if (ele.id === props.ResourceId) {
+    if (resourceId) {
+      curVideo.resources.forEach((ele) => {
+        if (ele.id === resourceId) {
           resource = ele
         }
       })
@@ -132,9 +114,6 @@ const newPlayer =() => {
       url: resource.url,
       pic: curVideo.cover,
       type: 'auto',
-    },
-    danmaku: {
-
     }
   });
 
@@ -148,16 +127,16 @@ const newPlayer =() => {
 // 修改倍速播放显示
   document.getElementsByClassName('dplayer-setting-item dplayer-setting-speed')[0].getElementsByClassName('dplayer-label')[0].innerText = "播放倍速"
   console.log("dp = ", dp)
-  dp.danmaku.send(
-      {
-        text: 'dplayer is amazing',
-        color: '#b7daff',
-        type: 'right', // should be `top` `bottom` or `right`
-      },
-      function () {
-        console.log('success');
-      }
-  );
+  // dp.danmaku.send(
+  //     {
+  //       text: 'dplayer is amazing',
+  //       color: '#b7daff',
+  //       type: 'right', // should be `top` `bottom` or `right`
+  //     },
+  //     function () {
+  //       console.log('success');
+  //     }
+  // );
 }
 
 

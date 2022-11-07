@@ -6,9 +6,9 @@
           width="100"
           height="100"
           round
-          :src="user.avatar"
+          :src="$store.getters.user.avatar"
         />
-        <div class="username">{{ user.name }}</div>
+        <div class="username">{{ $store.getters.user.name }}</div>
       </div>
       <van-grid class="grid-nav mb-9" :column-num="3" clickable>
         <van-grid-item class="grid-item">
@@ -41,16 +41,27 @@
   <van-cell-group>
     <van-cell title="消息通知" />
     <van-cell title="上传视频" @click="upload" />
-    <van-cell v-if="$store.getters.user" title="退出"></van-cell>
+    <van-cell v-if="$store.getters.user" title="退出" @click="logout"></van-cell>
   </van-cell-group>
 
   <Tabbar></Tabbar>
 </template>
 
 <script setup>
-import router from '../routes';
 import Tabbar from '../components/Tabbar.vue';
 import { ref, reactive, onMounted } from 'vue'
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
+
+
+let router = useRouter()
+
+const store = useStore()
+
+const logout = () => {
+  store.commit("logout")
+  router.go(0)
+}
 
 </script>
 

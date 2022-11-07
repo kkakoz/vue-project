@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row" @click="$emit('reply-comment', comment)">
+  <div class="flex flex-row" @click="emitReplyComment">
     <div class="left">
       <van-image fit="cover" width="10vw" round :src="comment.avatar" @click.stop="toUser(comment.userId)"/>
     </div>
@@ -15,19 +15,20 @@
         <i class="icon iconfont icon-xinxi  pl-4" @click="like(comment.id)"></i>
       </div>
       <div class="bg-gray-100 p-2 w-full" v-if="comment.subComments.length > 0">
-        <div v-for="subComment in comment.subComments" class="flex flex-row" @click.stop="$emit('sub-comments', comment.id)">
-          <div class="text-blue-300" @click.stop="toUser(subComment.fromId)">{{ subComment.fromName }}</div>
+        <div v-for="subComment in comment.subComments" class="flex flex-row"
+             @click.stop="$emit('sub-comments', comment.id)">
+          <div class="text-blue-300" @click.stop="toUser(subComment.userId)">{{ subComment.username }}</div>
           &nbsp;
           <div v-if="subComment.targetId">
             &nbsp;回复&nbsp;
-            <div @click="toUser(subComment.targetId)">
-            {{ subComment.targetName }}
+            <div @click.stop="toUser(subComment.targetId)" class="text-blue-200">
+              {{ subComment.targetName }}
             </div>
           </div>
           :&nbsp;{{ subComment.content }}
         </div>
-        <div class="last" >
-          <span class="text-blue-300" @click.stop="$emit('sub-comments', comment.id)" >更多回复</span>
+        <div class="last">
+          <span class="text-blue-300" @click.stop="$emit('sub-comments', comment.id)">更多回复</span>
         </div>
       </div>
     </div>
@@ -37,10 +38,11 @@
 <script setup>
 
 import {defineProps, defineEmits} from 'vue';
-import router from "@/routes";
 import moment from "moment";
+import {useRouter} from "vue-router";
 
 
+let router = useRouter()
 
 function dateFormat(unix) {
   let date = new Date(unix)
@@ -51,17 +53,19 @@ let props = defineProps({
   comment: Object
 })
 
-console.log("11 = ", props.comment)
-console.log("22 = ", dateFormat(props.comment.createdAt))
+let comment = props.comment
+let emit = defineEmits(["sub-comments", "reply-comment"])
 
-defineEmits(["sub-comments", "reply-comment"])
+const emitReplyComment = () => {
+  emit('reply-comment', {commentId: comment.id, toId: comment.fromId, rootId: 0, username: comment.username})
+}
 
 function like(id) {
   console.log("like")
 }
 
 const toUser = (userId) => {
-  router.push("/user")
+  router.push(`/user/${userId}`)
 }
 
 

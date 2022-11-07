@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between p-4">
+  <div class="flex flex-row justify-between p-4" @click="toUser(user.id)">
     <div class="flex flex-row">
       <van-image
           width="11vw"
@@ -13,8 +13,8 @@
       </div>
     </div>
     <div v-if="$store.getters.user && $store.getters.user.id != user.id" class="p-2">
-      <van-button v-if="curFollowed" color="#D1D5DB" size="small" @click="unFollowUser">已关注</van-button>
-      <van-button v-else color="#60A5FA" size="small" @click="followUser">+ 关注</van-button>
+      <van-button v-if="curFollowed" color="#D1D5DB" size="small" @click.stop="unFollowUser">已关注</van-button>
+      <van-button v-else color="#60A5FA" size="small" @click.stop="followUser">+ 关注</van-button>
     </div>
 
   </div>
@@ -23,6 +23,10 @@
 <script setup>
 import {defineProps, ref, toRefs, watch} from 'vue';
 import {follow} from '@/api/user'
+import {useRouter} from "vue-router";
+
+
+let router = useRouter()
 import {
   Toast
 } from 'vant';
@@ -32,6 +36,11 @@ const props = defineProps({
   brief: String,
   followed: Boolean
 })
+
+const toUser = (userId) => {
+  router.push(`/user/${userId}`)
+}
+
 
 let curFollowed = ref(props.followed)
 

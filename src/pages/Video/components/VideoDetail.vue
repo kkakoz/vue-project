@@ -32,6 +32,7 @@ const props = defineProps({
   video: Object
 })
 
+
 let brief = ref(`${props.video.user.fansCount}粉丝`)
 
 const states = ref(undefined)

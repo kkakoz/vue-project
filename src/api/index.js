@@ -6,6 +6,8 @@ import {
     Toast
 } from 'vant';
 import {snake2camel, camel2snake} from './util';
+import router from '@/routes/index'
+import { Dialog } from 'vant';
 
 // 设置接口超时时间
 axios.defaults.timeout = 60000;
@@ -55,7 +57,9 @@ axios.interceptors.response.use(
         // return response
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
         // 否则的话抛出错误
-        response.data = snake2camel(response.data)
+        if (response && response.data) {
+            response.data = snake2camel(response.data)
+        }
         return Promise.resolve(response.data);
     },
     error => {
@@ -63,6 +67,28 @@ axios.interceptors.response.use(
             response
         } = error;
         if (response) {
+            console.log("in response = ",response)
+            if (response.status === 401) {
+                Dialog.confirm({
+                    message:
+                        '请登录后在进行操作',
+                })
+                    .then(() => {
+                        console.log("router = ", router)
+                        router.push({
+                            path: "/login",
+                            query: {
+                                back: router.currentRoute.value.fullPath
+                            }
+                        })
+                    })
+                    .catch(() => {
+                        // on cancel
+                    });
+                localStorage.removeItem("user")
+                localStorage.removeItem("user:token")
+                return Promise.reject(response.data);
+            }
             if (response.data.msg) {
                 Toast(response.data.msg)
                 return Promise.reject(response.data);

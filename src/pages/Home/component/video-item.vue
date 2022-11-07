@@ -33,9 +33,10 @@
 </template>
 
 <script setup>
-import router from '@/routes'
 import {defineProps} from 'vue'
+import {useRouter} from "vue-router";
 
+let router = useRouter()
 const props = defineProps({
   video: Object
 })

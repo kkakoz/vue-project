@@ -11,6 +11,7 @@ import Home from '../pages/Home/index.vue'
 import Person from '../pages/Person.vue'
 import Upload from '../pages/Upload.vue'
 import User from '../pages/User/index.vue'
+import Share from '../pages/Share/index.vue'
 
 const routes = [{
         path: '/',
@@ -61,11 +62,18 @@ const routes = [{
         },
     },
     {
-        path: '/user',
-        component: User,
+        path: '/share',
+        name: "Share",
+        component: Share,
         meta: {
-            title: 'user'
+            title: 'share'
         },
+        props: true
+    },
+    {
+        path: '/user/:userId',
+        component: User,
+        props: true
     },
     {
         path: '/:path(.*)',

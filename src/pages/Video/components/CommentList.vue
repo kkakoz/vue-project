@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <van-popup v-model:show="replyVideo" position="bottom">
+  <van-popup v-model:show="showReply" position="bottom">
       <div class="flex flex-row min-w-full">
         <van-field ref="commentInput"
                    v-model="replyContent"
@@ -35,7 +35,7 @@
       </div>
   </van-popup>
 
-  <van-action-sheet v-if="moreComment" v-model:show="moreComment">
+  <van-action-sheet v-if="moreComment" v-model:show="moreComment"  :style="{ height: '60%' }">
     <van-list
         v-model:loading="subLoading"
         :finished="subFinished"
@@ -43,7 +43,7 @@
         @load="subOnLoad"
     >
       <van-cell v-for="subComment in subComments" :key="item" :title="item">
-        <SubComment :subComment="subComment" />
+        <SubComment :subComment="subComment" @reply-comment="clickComment"/>
       </van-cell>
     </van-list>
   </van-action-sheet>
@@ -56,6 +56,7 @@ import {getComments, addComment, addSubComment, getSubComments} from '@/api/comm
 import {Toast} from "vant";
 import SubComment from "./SubComment.vue"
 import Comment from "./Comment.vue"
+import {useRouter} from "vue-router";
 
 
 const props = defineProps({
@@ -75,14 +76,10 @@ const onLoad = () => {
     data.forEach(element => {
       comments.value.push(element)
     });
+    loading.value = false;
     if (data.length > 0) {
-      console.log("is loading")
-      loading.value = true;
       lastId = data[data.length - 1].id
-      console.log(lastId)
     } else {
-      console.log("is finshed")
-      loading.value = false;
       finished.value = true;
     }
   })
@@ -107,27 +104,25 @@ const sendVideoComment = () => {
 
 // reply comment
 const replyComment = ref(undefined)
-const replyVideo = ref(false)
+const showReply = ref(false)
 const replyContent = ref("")
 
 const commentInput = ref()
 
 const clickComment = ((value) => {
+  console.log("value = ", value)
   replyComment.value = value
-  replyVideo.value = true
+  showReply.value = true
   nextTick(() => {
     commentInput.value?.focus();
   })
 })
 
-// const subCommentBlur = () => {
-//   replyContent.value = ""
-//   replyVideo.value = true
-// }
-
 const sendSubComment = () => {
-  addSubComment({commentId: replyComment.value.id, content: replyContent.value}).then((res) => {
+  addSubComment({commentId: replyComment.value.commentId, content: replyContent.value, rootId: replyComment.value.rootId, toId: replyComment.value.toId}).then((res) => {
     Toast.success("评论成功")
+    showReply.value = false
+    refreshSubComment()
   }).catch((e) => {
     Toast.success("评论失败" + e)
   })
@@ -137,16 +132,25 @@ const sendSubComment = () => {
 const moreComment = ref(false)
 const commentIdSubs = ref()
 
-
-const clickMoreComment = (commentId) => {
-  commentIdSubs.value = commentId
-  moreComment.value = true
-}
-
 let subLastId = 0
 let subFinished = ref(false)
 let subLoading = ref(false)
 const subComments = ref([])
+
+const refreshSubComment = () => {
+  subLastId = 0
+  subComments.value = []
+  subFinished.value = false
+  subLoading.value = false
+  replyContent.value = ""
+}
+
+const clickMoreComment = (commentId) => {
+  console.log("enter more comment id = ", commentId)
+  commentIdSubs.value = commentId
+  moreComment.value = true
+  refreshSubComment()
+}
 
 const subOnLoad = () => {
   // 异步更新数据
@@ -157,8 +161,8 @@ const subOnLoad = () => {
     });
     if (data.length > 0) {
       console.log("is loading")
-      subLoading.value = true;
       subLastId = data[data.length - 1].id
+      subLoading.value = false;
     } else {
       console.log("is finshed")
       subLoading.value = false;

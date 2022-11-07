@@ -1,11 +1,11 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import VideoItem from '@/components/VideoItem.vue'
 import Tabbar from '@/components/Tabbar.vue';
-import router from '@/routes/index'
 import {  getCategories } from '@/api/home.js'
 import VideoList from './component/video-list.vue'
+import {useRouter} from "vue-router";
 
+let router = useRouter()
 const active = ref(0);
 
 let categoryId = 0

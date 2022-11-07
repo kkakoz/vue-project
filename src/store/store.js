@@ -9,6 +9,7 @@ const store = createStore({
         return {
             user: null,
             token: "",
+            baseColor: "#fb7299",
         }
     },
     getters: {

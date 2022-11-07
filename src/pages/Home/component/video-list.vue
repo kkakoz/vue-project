@@ -44,14 +44,10 @@ const onLoad = () => {
     videos.forEach(element => {
       videoList.list.push(element)
     });
+    loading.value = false;
     if (videos.length > 0) {
-      console.log("is loading")
-      loading.value = true;
       lastId = videos[videos.length - 1].id
-      console.log(lastId)
     } else {
-      console.log("is finshed")
-      loading.value = false;
       finished.value = true;
     }
   })

@@ -22,10 +22,17 @@
       <div class="mt-5 text-center">{{ collectCount }}</div>
     </div>
     <div class="flex flex-col">
-      <van-icon size="30" color="#9CA3AF" name="share"/>
+      <van-icon size="30" color="#9CA3AF" name="share" @click="clickShow"/>
       <div class="mt-5 text-center">分享</div>
     </div>
   </div>
+
+<!--  <van-overlay :show="showShare" @click="showShare = false">-->
+<!--    <div class="flex justify-center items-center h-full">-->
+<!--      <div class="w-28 h-36 bg-gray-300 "></div>-->
+<!--    </div>-->
+<!--  </van-overlay>-->
+
 </template>
 
 
@@ -34,6 +41,9 @@
 import {like} from '@/api/like'
 import {collect} from '@/api/collect'
 import {reactive, ref, toRefs} from "vue";
+import {useRouter} from "vue-router";
+
+let router = useRouter()
 
 const startColor = "#60A5FA"
 const cancelColor = "#9CA3AF"
@@ -43,9 +53,11 @@ let props = defineProps({
   video: Object,
 })
 
-let likeCount = ref(props.video.like)
+const video = props.video
 
-let collectCount = ref(props.video.collect)
+let likeCount = ref(video.like)
+
+let collectCount = ref(video.collect)
 
 let curState = reactive(props.states)
 
@@ -80,7 +92,19 @@ const likeVideo = (likeType, likeValue) => { // like type true 添加； false �
 }
 
 const collectVideo = () => {
-  collect({videoId: props.video.id, })
+  collect({videoId: video.id, })
+}
+
+// share
+const clickShow = () => {
+  router.push({
+    name: "Share",
+    params: {
+      title: video.title,
+      username: video.user.name,
+      cover: video.cover,
+    }
+  })
 }
 
 </script>

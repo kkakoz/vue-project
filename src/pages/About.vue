@@ -5,9 +5,9 @@
 </template>
 
 <script setup>
-import router from '../routes';
 import Tabbar from '../components/Tabbar.vue';
-
+import {useRouter} from "vue-router";
+let router = useRouter()
 const toHome = () => {
   router.push('/');
 };
