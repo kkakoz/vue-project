@@ -1,12 +1,13 @@
 <template>
   <van-nav-bar
       left-arrow
+      @click-left="onClickLeft"
       right-text="发布"
       @click-right="clickRight"
   />
   <van-cell-group inset>
     <van-field
-        v-model="msg"
+        v-model="content"
         rows="6"
         autosize
         type="textarea"
@@ -16,15 +17,15 @@
 
   <div class="m-4 bg-gray-100 h-40">
     <div class="flex flex-col">
-      <div v-if="user">
-        {{ username }}
+      <div>
+        <span class="text-blue-200 text-xs">@{{ username }}</span>
       </div>
-      <div v-if="title || url" class="flex flex-row">
+      <div class="flex flex-row">
         <div>
-          {{url}}
+          <van-image fit="cover" width="30vw" :src="cover"/>
         </div>
-        <div>
-          {{title}}
+        <div class="text-2xl pl-2">
+          {{ name }}
         </div>
       </div>
     </div>
@@ -34,18 +35,26 @@
 <script setup>
 
 import {ref} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {newsfeedAdd} from "../../api/news";
+import {Toast} from 'vant';
 
 let route = useRoute()
-// const video = route.params.video
-console.log("route = ", route)
-const {username, title, cover } = route.params
-const msg = ref("")
+let router = useRouter()
+const {username, name, cover, videoId} = route.params
+const content = ref("")
 
-
+const onClickLeft = () => {
+  router.back()
+}
 
 const clickRight = () => {
-
+  newsfeedAdd({targetType: 1, targetId: Number(videoId), content: content.value}).then(()=> {
+    Toast.success("分享成功")
+    router.back()
+  }).catch((err) => {
+    console.log("err:", err)
+  })
 }
 
 </script>

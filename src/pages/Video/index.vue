@@ -8,7 +8,11 @@
       <VideoDetail v-if="video" :videoId="video.id" :video="video"/>
     </van-tab>
 
-    <van-tab title="评论">
+
+    <van-tab v-if="video" :title="`评论 ${video.comment}`">
+      <CommentList v-if="video" :videoId="video.id"></CommentList>
+    </van-tab>
+    <van-tab v-else :title="`评论`">
       <CommentList v-if="video" :videoId="video.id"></CommentList>
     </van-tab>
     <van-tab disabled>

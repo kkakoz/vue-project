@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between p-4" @click="toUser(user.id)">
+  <div class="flex flex-row justify-between m-3" @click="toUser(user.id)">
     <div class="flex flex-row">
       <van-image
           width="11vw"
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import {defineProps, ref, toRefs, watch} from 'vue';
+import {defineProps, reactive, ref, toRefs, watch} from 'vue';
 import {follow} from '@/api/user'
 import {useRouter} from "vue-router";
 
@@ -41,14 +41,21 @@ const toUser = (userId) => {
   router.push(`/user/${userId}`)
 }
 
+let user = reactive(props.user)
+
+let brief = ref(`${user.fansCount}粉丝`)
 
 let curFollowed = ref(props.followed)
 
+let emit = defineEmits(["follow", "unfollow"])
 
 const followUser = () => {
   follow({followed_user_id: props.user.id, type: 1}).then(() => {
     Toast.success("关注成功")
     curFollowed.value = true
+    user.fansCount++
+    brief.value = `${user.fansCount}粉丝`
+    emit("follow")
   }).catch((e) => {
     Toast.fail("关注失败")
   })
@@ -58,6 +65,9 @@ const unFollowUser = () => {
   follow({followed_user_id: props.user.id, type: 2}).then(() => {
     Toast.success("取关成功")
     curFollowed.value = false
+    user.fansCount--
+    brief.value = `${user.fansCount}粉丝`
+    emit("unfollow")
   }).catch((e) => {
     Toast.fail("取关失败")
   })

@@ -1,11 +1,5 @@
 <template>
   <div class="flex flex-row justify-between p-8">
-
-    <!--    <VideoIcon name="点赞" iconName="good-job" :state="states.user_like"/>-->
-    <!--    <VideoIcon name="收藏" iconName="star" :state="states.user_collection"/>-->
-    <!--    <VideoIcon name="喜欢" iconName="like" state="states.user_collection"/>-->
-    <!--    <VideoIcon name="分享" iconName="share" :state="states.user_shared"/>-->
-    <!--    <VideoIcon name="点赞" iconName="good-job" :state="states.user_like"/>-->
     <div class="flex flex-col">
       <van-icon v-if="curState.userLike" size="30" :color="startColor" name="good-job" @click="likeVideo(false, true)"/>
       <van-icon v-else size="30" :color="cancelColor" name="good-job" @click="likeVideo(true, true)"/>
@@ -13,25 +7,28 @@
     </div>
     <div class="flex flex-col">
 
-      <i v-if="curState.userDisLike" class="icon iconfont icon-dislike text-4xl startColor" @click="likeVideo(false, false)"></i>
+      <i v-if="curState.userDisLike" class="icon iconfont icon-dislike text-4xl startColor"
+         @click="likeVideo(false, false)"></i>
       <i v-else class="icon iconfont icon-dislike text-4xl cancelColor" @click="likeVideo(true, false)"></i>
       <div class="mt-5">不喜欢</div>
     </div>
     <div class="flex flex-col">
-      <van-icon size="30" color="#9CA3AF" name="star"/>
+      <van-icon v-if="curState.userCollect" size="30" :color="startColor" name="star" @click="clickCollect(false)"/>
+      <van-icon v-else size="30" :color="cancelColor" name="star" @click="clickCollect(true)"/>
       <div class="mt-5 text-center">{{ collectCount }}</div>
     </div>
     <div class="flex flex-col">
-      <van-icon size="30" color="#9CA3AF" name="share" @click="clickShow"/>
+      <van-icon v-if="curState.userShared" size="30" :color="startColor" name="share"/>
+      <van-icon v-else size="30" :color="cancelColor" name="share" @click="clickShow"/>
       <div class="mt-5 text-center">分享</div>
     </div>
   </div>
 
-<!--  <van-overlay :show="showShare" @click="showShare = false">-->
-<!--    <div class="flex justify-center items-center h-full">-->
-<!--      <div class="w-28 h-36 bg-gray-300 "></div>-->
-<!--    </div>-->
-<!--  </van-overlay>-->
+  <!--  <van-overlay :show="showShare" @click="showShare = false">-->
+  <!--    <div class="flex justify-center items-center h-full">-->
+  <!--      <div class="w-28 h-36 bg-gray-300 "></div>-->
+  <!--    </div>-->
+  <!--  </van-overlay>-->
 
 </template>
 
@@ -40,8 +37,9 @@
 
 import {like} from '@/api/like'
 import {collect} from '@/api/collect'
-import {reactive, ref, toRefs} from "vue";
+import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
+import {Toast} from "vant";
 
 let router = useRouter()
 
@@ -61,6 +59,7 @@ let collectCount = ref(video.collect)
 
 let curState = reactive(props.states)
 
+// 点赞 or 取消点赞
 const likeVideo = (likeType, likeValue) => { // like type true 添加； false 取消
   like({targetId: props.video.id, targetType: 1, likeType: likeType, like: likeValue}).then((res) => {
     if (likeValue) { // 喜欢
@@ -70,7 +69,7 @@ const likeVideo = (likeType, likeValue) => { // like type true 添加； false �
         if (curState.userDisLike) {
           curState.userDisLike = false
         }
-      } else{
+      } else {
         likeCount.value = likeCount.value - 1
         curState.userLike = false
       }
@@ -81,7 +80,7 @@ const likeVideo = (likeType, likeValue) => { // like type true 添加； false �
           curState.userLike = false
           likeCount.value = likeCount.value - 1
         }
-      } else{
+      } else {
         curState.userDisLike = false
       }
     }
@@ -91,8 +90,20 @@ const likeVideo = (likeType, likeValue) => { // like type true 添加； false �
   })
 }
 
-const collectVideo = () => {
-  collect({videoId: video.id, })
+// 收藏
+const clickCollect = (b) => {
+  collect({targetId: video.id, collect: b}).then(() => {
+    curState.userCollect = !curState.userCollect
+    if (b) {
+      Toast.success("收藏成功")
+      collectCount.value += 1
+    } else {
+      Toast.success("取消收藏成功")
+      collectCount.value -= 1
+    }
+  }).catch((e) => {
+
+  })
 }
 
 // share
@@ -100,9 +111,10 @@ const clickShow = () => {
   router.push({
     name: "Share",
     params: {
-      title: video.title,
+      name: video.name,
       username: video.user.name,
       cover: video.cover,
+      videoId: video.id,
     }
   })
 }
