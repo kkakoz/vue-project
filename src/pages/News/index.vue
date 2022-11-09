@@ -1,5 +1,4 @@
 <template>
-
   <div class="max-hight bg-gray-100">
     <div class="text-center text-3xl">
       关注动态
@@ -7,33 +6,6 @@
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
     <van-cell v-for="newsfeed in newsfeedList" :key="item" :title="item">
       <Newsfeed :newsfeed="newsfeed"></Newsfeed>
-<!--      <div class="flex flex-col rounded-xl shadow-md p-4 bg-white">-->
-<!--        &lt;!&ndash;  头部&ndash;&gt;-->
-<!--        <div class="flex flex-row justify-between" @click.stop="toUser(newsfeed.userId)">-->
-<!--          <div class="flex flex-row">-->
-<!--            <van-image :src="newsfeed.user.avatar" round fit="container" width="10vw" height="10vw"/>-->
-<!--            <div class="flex flex-col ml-2 justify-between">-->
-<!--              <div>{{ newsfeed.user.name }}</div>-->
-<!--              <div class="text-gray-500 text-xs" v-if="newsfeed.action === 1">分享了视频</div>-->
-<!--              <div class="text-gray-500 text-xs" v-if="newsfeed.action === 2">发表新的动态</div>-->
-<!--              <div class="text-gray-500 text-xs" v-if="newsfeed.action === 3">投稿新的视频</div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div>-->
-<!--            <van-icon name="ellipsis"/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="flex flex-col mt-4">-->
-<!--          <div>{{ newsfeed.content }}</div>-->
-<!--        </div>-->
-<!--        <div v-if="newsfeed.targetType === 1">-->
-<!--          <div class="rounded-xl shadow-md p-4" @click.stop="toVideo(newsfeed.targetId)">-->
-<!--            <van-image :src="newsfeed.target.cover" fit="conver"></van-image>-->
-<!--            <div>{{newsfeed.target.name}}</div>-->
-<!--          </div>-->
-
-<!--        </div>-->
-<!--      </div>-->
     </van-cell>
   </van-list>
   </div>
@@ -44,9 +16,9 @@
 
 import {ref} from "vue";
 import {newsfeeds} from "../../api/news";
-import Tabbar from "../../components/Tabbar.vue"
+import Tabbar from "@/components/Tabbar.vue"
 import {useRouter} from "vue-router";
-import Newsfeed from "../../components/Newsfeed.vue";
+import Newsfeed from "@/components/Newsfeed.vue";
 
 let router = useRouter()
 let lastId = 0
@@ -73,14 +45,6 @@ const onLoad = () => {
   })
 };
 
-
-const toVideo = (id)=> {
-  router.push("/video/"+id)
-}
-
-const toUser = (userId) => {
-  router.push(`/user/${userId}`)
-}
 
 
 </script>

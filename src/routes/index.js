@@ -2,7 +2,6 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router';
-import About from '../pages/About.vue';
 import NotFound from '../pages/NotFound.vue';
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
@@ -16,17 +15,10 @@ import Newsfeed from '../pages/News/index.vue'
 
 const routes = [{
         path: '/',
-        // component: () => import('../pages/Home.vue'),
+        // components: () => import('../pages/Home.vue'),
         component: Home,
         meta: {
             title: 'Home'
-        },
-    },
-    {
-        path: '/about',
-        component: About,
-        meta: {
-            title: 'About'
         },
     },
     {

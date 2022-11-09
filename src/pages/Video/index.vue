@@ -5,7 +5,7 @@
 
   <van-tabs v-model:active="active">
     <van-tab title="详情">
-      <VideoDetail v-if="video" :videoId="video.id" :video="video"/>
+      <VideoDetail v-if="video" :videoId="video.id" :video="video" @change-resource="initDp"/>
     </van-tab>
 
 
@@ -76,18 +76,17 @@ getVideo({videoId}).then(res => {
 
 const active = ref(0);
 
+
+// 弹幕相关
 const sendDanmu = ref(false)
 
 const sendDanmuClick = () => {
   sendDanmu.value = true
 }
 
-const sendDanmuFunc = () => {
-
-}
-
 const danmuMsg = ref("")
 
+// 播放器
 let dp = null
 
 const newPlayer =() => {
@@ -109,6 +108,10 @@ const newPlayer =() => {
   }
   console.log("resource = ", resource)
 
+  initDp(resource)
+}
+
+const initDp = (resource) => {
   dp = new DPlayer({
     // 配置参数
     container: document.getElementById('dplayer'),
@@ -121,7 +124,7 @@ const newPlayer =() => {
     volume: 0.7,
     video: {
       url: resource.url,
-      pic: curVideo.cover,
+      pic: video.value.cover,
       type: 'auto',
     }
   });

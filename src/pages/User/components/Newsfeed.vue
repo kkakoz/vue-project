@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col rounded-xl shadow-md p-4 bg-white">
     <!--  头部-->
-    <div class="flex flex-row justify-between" @click.stop="toUser(newsfeed.userId)">
+    <div class="flex flex-row justify-between">
       <div class="flex flex-row">
         <van-image :src="newsfeed.user.avatar" round fit="container" width="10vw" height="10vw"/>
         <div class="flex flex-col ml-2 justify-between">
@@ -45,5 +45,7 @@ const toVideo = (id)=> {
 const toUser = (userId) => {
   router.push(`/user/${userId}`)
 }
+
+
 
 </script>

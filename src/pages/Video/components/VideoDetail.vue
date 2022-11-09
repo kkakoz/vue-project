@@ -5,8 +5,8 @@
     <div class="mt-2">{{ video.brief }}</div>
     <State v-if="states" :states="states" :video="video"/>
     <div v-if="video.resources.length >1" class="eps_list">
-      <div class="eps shadow-md " v-for="eps in video.resources">
-        {{ eps.name }}
+      <div class="eps shadow-md " v-for="resource in video.resources" @click.stop="$emit('change-resource', resource)">
+        {{ resource.name }}
       </div>
 
     </div>
@@ -33,7 +33,9 @@ const props = defineProps({
   video: Object
 })
 
+const changeResource =(resource) => {
 
+}
 
 
 const states = ref(undefined)

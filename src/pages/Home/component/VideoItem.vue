@@ -10,26 +10,6 @@
     </div>
     <h3 class="video-item-title">{{ video.name }}</h3>
   </div>
-
-  <!--  <div class="item" @click="to">-->
-  <!--    <van-image-->
-  <!--        width="100"-->
-  <!--        height="100"-->
-  <!--        src="https://unpkg.com/@vant/assets/cat.jpeg"-->
-  <!--    />-->
-  <!--&lt;!&ndash;    <div class="img">&ndash;&gt;-->
-
-  <!--&lt;!&ndash;      <span class="mx-auto">&ndash;&gt;-->
-  <!--&lt;!&ndash;        <i><van-icon name="tv-o" />&ensp;33</i>&ndash;&gt;-->
-  <!--&lt;!&ndash;        <i><van-icon name="comment-o" />55</i>&ndash;&gt;-->
-  <!--&lt;!&ndash;      </span>&ndash;&gt;-->
-  <!--&lt;!&ndash;    </div>&ndash;&gt;-->
-  <!--&lt;!&ndash;    <div class="content">&ndash;&gt;-->
-  <!--&lt;!&ndash;      <div class="title">{{video.name}}</div>&ndash;&gt;-->
-
-  <!--&lt;!&ndash;    </div>&ndash;&gt;-->
-  <!--  </div>-->
-  <!--&lt;!&ndash;  <van-divider :style="{ margin: '.5em' }" />&ndash;&gt;-->
 </template>
 
 <script setup>

@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import VideoItem from './video-item.vue'
+import VideoItem from './VideoItem.vue'
 import {ref, reactive, defineProps} from 'vue';
 import {getVideos} from '@/api/video';
 
@@ -51,19 +51,6 @@ const onLoad = () => {
       finished.value = true;
     }
   })
-  // setTimeout(() => {
-  //   for (let i = 0; i < 10; i++) {
-  //     list.value.push(list.value.length + 1);
-  //   }
-
-  //   // 加载状态结束
-  //   loading.value = false;
-
-  //   // 数据全部加载完成
-  //   if (list.value.length >= 40) {
-  //     finished.value = true;
-  //   }
-  // }, 1000);
 };
 
 

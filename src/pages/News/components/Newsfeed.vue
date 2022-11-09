@@ -19,11 +19,10 @@
       <div>{{ newsfeed.content }}</div>
     </div>
     <div v-if="newsfeed.targetType === 1">
-      <div class="rounded-xl shadow-md p-4" @click.stop="toVideo(newsfeed.targetId)">
+      <div class="rounded-xl shadow-md p-4" @click.stop="toVideo(newsfeed)">
         <van-image :src="newsfeed.target.cover" fit="conver"></van-image>
         <div>{{newsfeed.target.name}}</div>
       </div>
-
     </div>
   </div>
 </template>
@@ -45,5 +44,6 @@ const toVideo = (id)=> {
 const toUser = (userId) => {
   router.push(`/user/${userId}`)
 }
+
 
 </script>

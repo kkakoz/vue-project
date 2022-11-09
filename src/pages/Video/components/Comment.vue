@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row" @click="emitReplyComment">
     <div class="left">
-      <van-image fit="cover" width="10vw" round :src="comment.avatar" @click.stop="toUser(comment.userId)"/>
+      <van-image fit="contain" width="10vw" round :src="comment.avatar" @click.stop="toUser(comment.userId)"/>
     </div>
     <div class="flex flex-col pl-4 font-extralight w-full">
       <div class="text-lg">
@@ -68,55 +68,5 @@ const toUser = (userId) => {
 </script>
 
 <style scoped lang="scss">
-//.app {
-//    display: flex;
-//    .left {
-//        width: 3.5em;
-//        margin: 20px;
-//    }
-//    .right {
-//        margin: 0.5rem;
-//        width: 100%;
-//        .user {
-//            margin: 1rem 0 0.3rem 0;
-//            font-size: 1.2rem;
-//        }
-//        .note {
-//            color: #8a919f;
-//        }
-//        .content {
-//            margin: 1em 0em;
-//            font-size: 0.8em;
-//            color: #515767;
-//        }
-//        .actions {
-//            width: 20%;
-//            display: flex;
-//            font-size: 1.5em;
-//            justify-content: space-between;
-//        }
-//        .sub_comments {
-//            // background-color: #f4f5f5;
-//            background-color: rgba(247, 248, 250, 0.7);
-//            width: 90%;
-//            margin-top: 0.3rem;
-//            .sub {
-//                padding: 0.5rem 0.5rem 0 0.5rem;
-//            }
-//            .last {
-//                padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-//            }
-//        }
-//    }
-//}
-//
-//.click_name {
-//    color: #0681d0;
-//}
-//
-//.iconfont- {
-//    font-size: 30px;
-//}
-
 
 </style>
