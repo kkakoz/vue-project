@@ -9,21 +9,21 @@
     </van-tab>
 
 
-    <van-tab v-if="video" :title="`评论 ${video.comment}`">
-      <CommentList v-if="video" :videoId="video.id"></CommentList>
+    <van-tab v-if="video" :title="`评论 ${videoComment}`">
+      <CommentList v-if="video" :videoId="video.id" @add-comment="emitAddComment"></CommentList>
     </van-tab>
     <van-tab v-else :title="`评论`">
       <CommentList v-if="video" :videoId="video.id"></CommentList>
     </van-tab>
-    <van-tab disabled>
-      <template #title>
-        <span class="danmu">
+<!--    <van-tab disabled>-->
+<!--      <template #title>-->
+<!--        <span class="danmu">-->
 
-          <van-button round size="small" @click="sendDanmuClick">发送弹幕</van-button>
-          <i class="icon iconfont icon-danmu"></i>
-        </span>
-      </template>
-    </van-tab>
+<!--          <van-button round size="small" @click="sendDanmuClick">发送弹幕</van-button>-->
+<!--          <i class="icon iconfont icon-danmu"></i>-->
+<!--        </span>-->
+<!--      </template>-->
+<!--    </van-tab>-->
 
     <van-popup
         v-model:show="sendDanmu"
@@ -65,9 +65,12 @@ const resourceId = Number(props.videoId)
 
 const video = ref(undefined)
 
+const videoComment = ref(0)
+
 getVideo({videoId}).then(res => {
   console.log("video res = ",res)
   video.value = res
+  videoComment.value = res.comment
   newPlayer()
 })
 
@@ -90,6 +93,7 @@ let dp = null
 const newPlayer =() => {
   let resource = undefined
   let curVideo = video.value
+  console.log("video = ", video)
   if (curVideo.resources.length === 1) {
     resource = curVideo.resources[0]
   }
@@ -103,6 +107,7 @@ const newPlayer =() => {
     }
     resource = curVideo.resources[0]
   }
+  console.log("resource = ", resource)
 
   dp = new DPlayer({
     // 配置参数
@@ -143,7 +148,9 @@ const newPlayer =() => {
   // );
 }
 
-
+const emitAddComment = () => {
+  videoComment.value += 1
+}
 
 const onPlay = ()=> {
   dp.play()

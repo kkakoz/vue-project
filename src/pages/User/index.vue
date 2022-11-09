@@ -1,7 +1,7 @@
 <template>
   <div v-if="user" class="flex flex-row pl-6 pr-6 pt-6 justify-between">
 
-    <van-image round :src="user.avatar" fit="contain" width="20vw" height="20vw"/>
+    <van-image round :src="user.avatar" fit="cover" width="20vw" height="20vw"/>
     <div class="flex flex-col">
       <div class="flex flex-row mb-2">
         <div class="flex-col text-center w-24">
@@ -24,11 +24,14 @@
 <!--      <div class="text-center pt-4 bg-blue-400 w-full" ></div>-->
     </div>
   </div>
-  <div v-if="user" class="text-2xl text-center pt-2 flex pl-6">
+  <div v-if="user" class="text-4xl text-center pt-2 flex pl-6 text-gray-700">
     {{ user.name }}
   </div>
-  <div v-if="user" class="text-2xl text-center pt-2 flex pl-6">
+  <div v-if="user.brief" class="text-1xl text-center pt-2 flex pl-6 text-gray-400">
     {{ user.brief }}
+  </div>
+  <div v-else class="text-1xl text-center pt-2 flex pl-6 text-gray-400">
+    这个人很懒,什么也没留下
   </div>
 
   <van-tabs  v-model:active="active">

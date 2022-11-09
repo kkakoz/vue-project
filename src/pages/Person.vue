@@ -2,12 +2,15 @@
   <div class="p-10">
     <div v-if="$store.getters.user" class="text-center">
       <div class="user">
-        <van-image
-          width="100"
-          height="100"
-          round
-          :src="$store.getters.user.avatar"
-        />
+        <van-uploader :after-read="uploadAvatar">
+          <van-image
+              width="100"
+              height="100"
+              round
+              :src="$store.getters.user.avatar"
+          />
+        </van-uploader>
+
         <div class="username">{{ $store.getters.user.name }}</div>
       </div>
       <van-grid class="grid-nav mb-9" :column-num="3" clickable>
@@ -52,6 +55,9 @@ import Tabbar from '../components/Tabbar.vue';
 import { ref, reactive, onMounted } from 'vue'
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import {oss, put} from '@/api/oss';
+import {Toast} from "vant";
+import {updateAvatar} from "../api/user";
 
 
 let router = useRouter()
@@ -61,6 +67,34 @@ const store = useStore()
 const logout = () => {
   store.commit("logout")
   router.go(0)
+}
+
+// 上传头像
+const uploadAvatar = async (file) => {
+  // console.log(file)
+  try {
+    let conf = await oss()
+    console.log(conf)
+    let res = await put(file.file.name, file.file, conf)
+    console.log(res)
+    await updateAvatar({url: res.url})
+    store.commit("setAvatar", res.url)
+  }catch (e) {
+    console.log("err = ",e)
+  }
+  // oss().then((conf) => {
+  //   console.log("res = ", conf)
+  //   put(file.file.name, file.file, conf).then((putRes) => {
+  //     Toast.success("上传成功")
+  //     console.log(putRes)
+  //     store.commit("setAvatar", putRes.url)
+  //   }).catch((e) => {
+  //     console.log(e)
+  //     Toast.fail("上传失败")
+  //   })
+  // }).catch((e) => {
+  //   console.log(e)
+  // })
 }
 
 </script>

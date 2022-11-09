@@ -49,7 +49,7 @@ const onClickLeft = () => {
 }
 
 const clickRight = () => {
-  newsfeedAdd({targetType: 1, targetId: Number(videoId), content: content.value}).then(()=> {
+  newsfeedAdd({targetType: 1, targetId: Number(videoId), content: content.value, action: 1}).then(() => {
     Toast.success("分享成功")
     router.back()
   }).catch((err) => {

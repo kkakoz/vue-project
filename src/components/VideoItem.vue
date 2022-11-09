@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row" @click="to">
+  <div class="flex flex-row" @click.stop="to">
     <van-image
         width="50vw"
         height="20vw"
@@ -24,13 +24,16 @@
 
 <script setup>
 import {useRouter} from "vue-router";
-let router = useRouter()
 import { defineProps } from 'vue'
 const props = defineProps({
   video: Object
 })
 
+let router = useRouter()
+
+
 function to() {
+  console.log("in to video")
   router.push("/video/"+props.video.id)
 }
 </script>

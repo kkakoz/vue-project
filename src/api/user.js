@@ -22,3 +22,7 @@ export const follow = (data) => {
 export const getUser = (data) => {
     return get("/user/get", data)
 }
+
+export const updateAvatar = (data) => {
+    return post("/user/update-avatar", data)
+}

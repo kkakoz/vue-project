@@ -25,6 +25,8 @@ import User from "@/components/User.vue";
 import {useStore} from "vuex";
 import { videoUserState, getRecommendVideos } from '@/api/video';
 import VideoItem from "@/components/VideoItem.vue";
+
+
 const store = useStore()
 
 const props = defineProps({

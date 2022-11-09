@@ -12,6 +12,7 @@ import Person from '../pages/Person.vue'
 import Upload from '../pages/Upload.vue'
 import User from '../pages/User/index.vue'
 import Share from '../pages/Share/index.vue'
+import Newsfeed from '../pages/News/index.vue'
 
 const routes = [{
         path: '/',
@@ -60,6 +61,10 @@ const routes = [{
         meta: {
             title: 'register'
         },
+    },
+    {
+        path: "/newsfeed",
+        component:Newsfeed
     },
     {
         path: '/share',

@@ -1,9 +1,13 @@
 <template>
-  <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-cell v-for="comment in comments" :key="item" :title="item">
-      <Comment :comment="comment" @reply-comment="clickComment" @sub-comments="clickMoreComment"/>
-    </van-cell>
-  </van-list>
+  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-cell v-for="comment in comments" :key="item" :title="item">
+        <Comment :comment="comment" @reply-comment="clickComment" @sub-comments="clickMoreComment"/>
+      </van-cell>
+    </van-list>
+  </van-pull-refresh>
+
+
   <div class="reply-bottom">
     <div class="flex flex-row min-w-full">
       <van-field
@@ -20,32 +24,34 @@
     </div>
   </div>
   <van-popup v-model:show="showReply" position="bottom">
-      <div class="flex flex-row min-w-full">
-        <van-field ref="commentInput"
-                   v-model="replyContent"
-                   rows="1"
-                   autosize
-                   type="textarea"
-                   :placeholder="`回复${replyComment.username}:`"
-        />
+    <div class="flex flex-row min-w-full">
+      <van-field ref="commentInput"
+                 v-model="replyContent"
+                 rows="1"
+                 autosize
+                 type="textarea"
+                 :placeholder="`回复${replyComment.username}:`"
+      />
 
-        <div class="p-3">
-          <i class="icon iconfont icon-fabu text-2xl" @click="sendSubComment"></i>
-        </div>
+      <div class="p-3">
+        <i class="icon iconfont icon-fabu text-2xl" @click="sendSubComment"></i>
       </div>
+    </div>
   </van-popup>
 
-  <van-action-sheet v-if="moreComment" v-model:show="moreComment"  :style="{ height: '60%' }">
-    <van-list
-        v-model:loading="subLoading"
-        :finished="subFinished"
-        finished-text="没有更多了"
-        @load="subOnLoad"
-    >
-      <van-cell v-for="subComment in subComments" :key="item" :title="item">
-        <SubComment :subComment="subComment" @reply-comment="clickComment"/>
-      </van-cell>
-    </van-list>
+  <van-action-sheet v-if="moreComment" v-model:show="moreComment" :style="{ height: '60%' }">
+    <van-pull-refresh v-model="subCommentRefreshing" @refresh="subCommentOnRefresh">
+      <van-list
+          v-model:loading="subLoading"
+          :finished="subFinished"
+          finished-text="没有更多了"
+          @load="subOnLoad"
+      >
+        <van-cell v-for="subComment in subComments" :key="item" :title="item">
+          <SubComment :subComment="subComment" @reply-comment="clickComment"/>
+        </van-cell>
+      </van-list>
+    </van-pull-refresh>
   </van-action-sheet>
 
 </template>
@@ -63,41 +69,63 @@ const props = defineProps({
   videoId: Number,
 })
 
+let emit = defineEmits(["add-comment"])
+
 // comment list
 let lastId = 0
 let finished = ref(false)
 let loading = ref(false)
 const comments = ref([])
+const refreshing = ref(false);
 
+// 评论列表加载
 const onLoad = () => {
   // 异步更新数据
+  if (refreshing.value) {
+    comments.value = []
+    refreshing.value = false
+    lastId = 0
+  }
   getComments({videoId: props.videoId, lastId}).then(res => {
     let data = res.data
-    data.forEach(element => {
-      comments.value.push(element)
-    });
-    loading.value = false;
-    if (data.length > 0) {
+    if (data.length) {
+      data.forEach(element => {
+        comments.value.push(element)
+      });
       lastId = data[data.length - 1].id
     } else {
       finished.value = true;
     }
+    loading.value = false;
   })
+};
+
+// 评论列表 刷新
+const onRefresh = () => {
+  // 清空列表数据
+  refreshing.value = true
+  finished.value = false
+  // 重新加载数据
+  // 将 loading 设置为 true，表示处于加载状态
+  loading.value = true
+  onLoad();
 };
 
 let commentMsg = ref("")
 
 const sendVideoComment = () => {
-  console.log("videoId = ", props.videoId)
-  console.log("videoId = ", typeof props.videoId)
+  if (commentMsg.value === "") {
+    Toast.fail("评论不能为空")
+    return
+  }
   addComment({targetId: props.videoId, content: commentMsg.value}).then((res) => {
-    if (commentMsg.value === "") {
-      Toast.fail("评论不能为空")
-      return
-    }
+    emit("add-comment")
     commentMsg.value = ""
+    comments.value = [res, ...comments.value]
     Toast.success("评论成功")
+    onRefresh()
   }).catch((e) => {
+    console.log("e = ", e)
     Toast.fail("评论失败")
   })
 }
@@ -119,7 +147,13 @@ const clickComment = ((value) => {
 })
 
 const sendSubComment = () => {
-  addSubComment({commentId: replyComment.value.commentId, content: replyContent.value, rootId: replyComment.value.rootId, toId: replyComment.value.toId}).then((res) => {
+  console.log("send sub comment")
+  addSubComment({
+    commentId: replyComment.value.commentId,
+    content: replyContent.value,
+    rootId: replyComment.value.rootId,
+    toId: replyComment.value.toId
+  }).then((res) => {
     Toast.success("评论成功")
     showReply.value = false
     refreshSubComment()
@@ -136,6 +170,7 @@ let subLastId = 0
 let subFinished = ref(false)
 let subLoading = ref(false)
 const subComments = ref([])
+const subCommentRefreshing = ref(false)
 
 const refreshSubComment = () => {
   subLastId = 0
@@ -156,18 +191,16 @@ const subOnLoad = () => {
   // 异步更新数据
   getSubComments({commentId: commentIdSubs.value, lastId: subLastId}).then(res => {
     let data = res.data
-    data.forEach(element => {
-      subComments.value.push(element)
-    });
-    if (data.length > 0) {
-      console.log("is loading")
+    if (data.length) {
+      data.forEach(element => {
+        subComments.value.push(element)
+      });
       subLastId = data[data.length - 1].id
-      subLoading.value = false;
     } else {
       console.log("is finshed")
-      subLoading.value = false;
       subFinished.value = true;
     }
+    subLoading.value = false;
   })
 };
 

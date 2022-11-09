@@ -39,6 +39,18 @@ const store = createStore({
             state.user = data
             localStorage.setItem("user", JSON.stringify(data))
         },
+        setAvatar(state, data) {
+            if (state.user) {
+                return state.user
+            }
+            let user = localStorage.getItem("user")
+            if (user) {
+                user = JSON.parse(user)
+            }
+            user.avatar = data
+            localStorage.setItem("user", JSON.stringify(user))
+            state.user = user
+        },
         setToken(state, data) {
             state.token = data
             localStorage.setItem("user:token", data)

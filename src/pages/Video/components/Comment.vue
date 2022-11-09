@@ -14,7 +14,7 @@
         <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
         <i class="icon iconfont icon-xinxi  pl-4" @click="like(comment.id)"></i>
       </div>
-      <div class="bg-gray-100 p-2 w-full" v-if="comment.subComments.length > 0">
+      <div class="bg-gray-100 p-2 w-full" v-if="comment.subComments && comment.subComments.length > 0">
         <div v-for="subComment in comment.subComments" class="flex flex-row"
              @click.stop="$emit('sub-comments', comment.id)">
           <div class="text-blue-300" @click.stop="toUser(subComment.userId)">{{ subComment.username }}</div>
@@ -40,14 +40,10 @@
 import {defineProps, defineEmits} from 'vue';
 import moment from "moment";
 import {useRouter} from "vue-router";
+import { dateFormat } from "@/utils/date"
 
 
 let router = useRouter()
-
-function dateFormat(unix) {
-  let date = new Date(unix)
-  return moment(date).format("YYYY-MM-DD HH:mm");
-}
 
 let props = defineProps({
   comment: Object
