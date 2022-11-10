@@ -12,9 +12,7 @@
     </div>
   </div>
   <van-list>
-    <video-item v-for="video in recommendVideos" :video="video">
-
-    </video-item>
+    <VideoItem v-for="video in recommendVideos" :video="video"/>
   </van-list>
 </template>
 

@@ -26,3 +26,7 @@ export const getUser = (data) => {
 export const updateAvatar = (data) => {
     return post("/user/update-avatar", data)
 }
+
+export const followerApi = (data) => {
+    return get("/follower/list", data)
+}

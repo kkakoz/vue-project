@@ -7,11 +7,13 @@ import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import Video from '../pages/Video/index.vue'
 import Home from '../pages/Home/index.vue'
-import Person from '../pages/Person.vue'
+import Person from '../pages/Person/index.vue'
 import Upload from '../pages/Upload.vue'
 import User from '../pages/User/index.vue'
 import Share from '../pages/Share/index.vue'
 import Newsfeed from '../pages/News/index.vue'
+import Follower from '../pages/Follows/index.vue'
+import History from '../pages/History/index.vue'
 
 const routes = [{
         path: '/',
@@ -39,6 +41,18 @@ const routes = [{
         meta: {
             title: 'Person'
         },
+    },
+    {
+        path: "/follower/:userId",
+        component: Follower,
+        meta: {
+            title: 'Follower'
+        },
+        props: true
+    },
+    {
+        path: "/history",
+        component: History,
     },
     {
         path: '/upload',

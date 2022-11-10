@@ -11,16 +11,20 @@
           />
         </van-uploader>
 
-        <div class="username">{{ $store.getters.user.name }}</div>
+        <div class="text-2xl">{{ $store.getters.user.name }}</div>
       </div>
-      <van-grid class="grid-nav mb-9" :column-num="3" clickable>
+      <van-grid class="grid-nav mb-9" :column-num="4" clickable>
         <van-grid-item class="grid-item">
           <i slot="icon" class="toutiao toutiao-shoucang"></i>
           <span slot="text" class="text">收藏</span>
         </van-grid-item>
-        <van-grid-item class="grid-item">
+        <van-grid-item class="grid-item"  @click="toHistoryPage">
           <i slot="icon" class="toutiao toutiao-lishi"></i>
           <span slot="text" class="text">历史</span>
+        </van-grid-item>
+        <van-grid-item class="grid-item" @click="toFollowPage($store.getters.user.id)">
+          <i slot="icon" class="toutiao toutiao-lishi"></i>
+          <span slot="text" class="text">关注</span>
         </van-grid-item>
         <van-grid-item class="grid-item">
           <i slot="icon" class="toutiao toutiao-lishi"></i>
@@ -34,7 +38,7 @@
     <div v-else class="not-login" @click="$router.push('/login')">
       <div class="my-container">
         <div class="header">
-          <img class="mobile-img" src="../assets/mobile.png" @click="$router.push('/login')" />
+          <img class="mobile-img" src="../../assets/mobile.png" @click="$router.push('/login')" />
         </div>
       </div>
     </div>
@@ -51,13 +55,13 @@
 </template>
 
 <script setup>
-import Tabbar from '../components/Tabbar.vue';
+import Tabbar from '../../components/Tabbar.vue';
 import { ref, reactive, onMounted } from 'vue'
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {oss, put} from '@/api/oss';
 import {Toast} from "vant";
-import {updateAvatar} from "../api/user";
+import {updateAvatar} from "../../api/user";
 
 
 let router = useRouter()
@@ -82,19 +86,16 @@ const uploadAvatar = async (file) => {
   }catch (e) {
     console.log("err = ",e)
   }
-  // oss().then((conf) => {
-  //   console.log("res = ", conf)
-  //   put(file.file.name, file.file, conf).then((putRes) => {
-  //     Toast.success("上传成功")
-  //     console.log(putRes)
-  //     store.commit("setAvatar", putRes.url)
-  //   }).catch((e) => {
-  //     console.log(e)
-  //     Toast.fail("上传失败")
-  //   })
-  // }).catch((e) => {
-  //   console.log(e)
-  // })
+}
+
+// 去关注页面
+const toFollowPage = (userId) => {
+  router.push("/follower/"+userId)
+}
+
+// 历史记录
+const toHistoryPage = () => {
+  router.push("/history")
 }
 
 </script>
