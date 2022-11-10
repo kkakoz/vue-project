@@ -10,10 +10,6 @@
       <div class="text-xs font-thin">{{ dateFormat(comment.createdAt) }}</div>
 
       <div class="text-1xl pt-4 font-medium">{{ comment.content }}</div>
-      <div class="actions">
-        <i class="icon iconfont icon-zantong" @click="like(comment.id)"></i>
-        <i class="icon iconfont icon-xinxi  pl-4" @click="like(comment.id)"></i>
-      </div>
       <div class="bg-gray-100 p-2 w-full" v-if="comment.subComments && comment.subComments.length > 0">
         <div v-for="subComment in comment.subComments" class="flex flex-row"
              @click.stop="$emit('sub-comments', comment.id)">

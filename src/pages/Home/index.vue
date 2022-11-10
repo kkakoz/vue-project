@@ -2,7 +2,7 @@
 import { ref, reactive } from 'vue';
 import Tabbar from '@/components/Tabbar.vue';
 import {  getCategories } from '@/api/home.js'
-import VideoList from './component/VideoList.vue'
+import VideoList from './components/VideoList.vue'
 import {useRouter} from "vue-router";
 
 let router = useRouter()

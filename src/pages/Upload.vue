@@ -15,7 +15,6 @@ import Video from '../components/Video.vue'
 import {ref} from 'vue'
 import {useRouter} from "vue-router";
 
-
 let router = useRouter()
 
 let url = ref("")

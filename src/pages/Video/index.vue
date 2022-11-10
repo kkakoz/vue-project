@@ -48,11 +48,12 @@
 
 <script setup>
 import VideoDetail from './components/VideoDetail.vue'
-import { ref, defineProps, reactive } from 'vue';
+import {ref, defineProps, reactive, onUnmounted} from 'vue';
 import { getVideo } from '@/api/video';
 import DPlayer from 'dplayer';
 import CommentList from "./components/CommentList.vue";
-import {addHistoryApi} from "../../api/history";
+import {addHistoryApi, getHistoryApi} from "../../api/history";
+
 
 const props = defineProps({
   videoId: Number,
@@ -108,6 +109,21 @@ const newPlayer =() => {
   }
   console.log("resource = ", resource)
 
+  getHistoryApi({videoId}).then((res) => {
+    if (res.duration) {
+      console.log("cur his = ", res)
+      dp.seek(res.duration)
+      dp.notice("从上次播放位置开始播放")
+    }
+  }).catch((e) => {
+    console.log("no history")
+    addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
+      console.log("add history suc")
+    }).catch((e)=> {
+      console.log("add history fail")
+    })
+  })
+
   initDp(resource)
 }
 
@@ -150,20 +166,26 @@ const initDp = (resource) => {
   //       console.log('success');
   //     }
   // );
-  addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
-    console.log("add history suc")
-  }).catch((e)=> {
-    console.log("add history fail")
+  dp.on('durationchange', ()=> {
+    console.log("duration change")
   })
+
+  dp.on("seeked", () => {
+    addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resource.id}).then((res)=> {
+      // console.log("add history suc")
+    }).catch((e)=> {
+      // console.log("add history fail")
+    })
+  })
+
+
+
 }
 
 const emitAddComment = () => {
   videoComment.value += 1
 }
 
-const onPlay = ()=> {
-  dp.play()
-}
 
 
 </script>

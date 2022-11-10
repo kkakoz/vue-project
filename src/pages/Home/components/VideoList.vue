@@ -1,9 +1,13 @@
 <style lang="scss" scoped>
+.max-hight {
+  height:calc(100vh - 50px);
+}
 
 </style>
 
 
 <template>
+  <div class="max-hight bg-gray-100">
   <van-list
       v-model:loading="loading"
       :finished="finished"
@@ -11,13 +15,17 @@
       @load="onLoad"
       immediate-check="false"
   >
-    <van-grid :border="false" :column-num="2">
+    <div class="grid grid-cols-2 " >
+      <VideoItem v-for="item in videoList.list" :video="item"></VideoItem>
+    </div>
+<!--    <van-grid :border="false" :column-num="2">-->
 
-      <van-grid-item v-for="item in videoList.list">
-        <VideoItem  :video="item"></VideoItem>
-      </van-grid-item>
-    </van-grid>
+<!--      <van-grid-item v-for="item in videoList.list">-->
+<!--         <VideoItem  :video="item"></VideoItem>-->
+<!--      </van-grid-item>-->
+<!--    </van-grid>-->
   </van-list>
+  </div>
 </template>
 
 <script setup>
