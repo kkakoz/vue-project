@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar title="关注列表" fixed="true"  placeholder/>
+  <van-nav-bar title="粉丝列表" fixed="true"  placeholder/>
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
     <van-cell v-for="follower in followers" :key="item" :title="item">
       <User :user="follower" followed="true" />

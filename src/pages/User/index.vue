@@ -5,22 +5,23 @@
     <div class="flex flex-col">
       <div class="flex flex-row mb-2">
         <div class="flex-col text-center w-24">
-          <div>{{ user.fans_count }}</div>
+          <div>{{ user.fansCount }}</div>
           <div class="text-gray-400">粉丝</div>
         </div>
         <span class="align-middle w-0.5 bg-gray-300 h-6 inline-block mt-2"></span>
         <div class="flex-col text-center w-24">
-          <div>{{ user.follow_count }}</div>
+          <div>{{ user.followCount }}</div>
           <div class="text-gray-400">关注</div>
         </div>
         <span class="align-middle w-0.5 bg-gray-300 h-6 inline-block mt-2"></span>
         <div class="flex-col text-center w-24">
-          <div>{{ user.like_count }}</div>
+          <div>{{ user.likeCount }}</div>
           <div class="text-gray-400">获赞</div>
         </div>
       </div>
-      <van-button round :color="$store.state.baseColor">关注</van-button>
 
+      <van-button v-if="user.followed" round color="#D1D5DB" @click="unFollowUser">已关注</van-button>
+      <van-button v-else round :color="$store.state.baseColor" @click="followUser">关注</van-button>
       <!--      <div class="text-center pt-4 bg-blue-400 w-full" ></div>-->
     </div>
   </div>
@@ -64,6 +65,8 @@ import {useRouter} from "vue-router";
 import {newsfeeds} from "../../api/news";
 import {getVideos} from "../../api/video";
 import VideoItem from "@/components/VideoItem.vue"
+import {Toast} from "vant";
+import {followApi} from "../../api/user";
 
 let props = defineProps({
   userId: Number
@@ -73,7 +76,7 @@ let props = defineProps({
 // init user
 const userId = Number(props.userId)
 
-const user = ref(null)
+let user = ref(undefined)
 
 getUser({userId: userId}).then((res) => {
   user.value = res
@@ -87,7 +90,7 @@ const newsfeedList = ref([])
 
 // 列表加载
 const onLoad = () => {
-  newsfeeds({userId: 1, lastId}).then(res => {
+  newsfeeds({userId: props.userId, lastId}).then(res => {
     let data = res.data
     if (data.length) {
       data.forEach(element => {
@@ -126,6 +129,28 @@ const videoOnLoad = () => {
   })
 
 };
+
+const followUser = () => {
+  followApi({followed_user_id: userId, type: 1}).then(() => {
+    Toast.success("关注成功")
+    let newUser = user.value
+    newUser.followed = true
+    user.value = newUser
+  }).catch((e) => {
+    Toast.fail("关注失败")
+  })
+}
+
+const unFollowUser = () => {
+  followApi({followed_user_id: userId, type: 2}).then(() => {
+    Toast.success("取关成功")
+    let newUser = user.value
+    newUser.followed = false
+    user.value = newUser
+  }).catch((e) => {
+    Toast.fail("取关失败")
+  })
+}
 
 
 </script>

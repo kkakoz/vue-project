@@ -1,13 +1,19 @@
 <template>
   <div class="max-hight bg-gray-100">
-    <div class="text-center text-3xl">
-      关注动态
-    </div>
-  <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-cell v-for="newsfeed in newsfeedList" :key="item" :title="item">
-      <Newsfeed :newsfeed="newsfeed"></Newsfeed>
-    </van-cell>
-  </van-list>
+  <van-nav-bar fixed="true"  placeholder
+      title="关注动态"
+  >
+    <template #right>
+      <van-icon name="add-o" @click="toShare" />
+    </template>
+  </van-nav-bar>
+
+
+    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-cell v-for="newsfeed in newsfeedList" :key="item" :title="item">
+        <Newsfeed :newsfeed="newsfeed"></Newsfeed>
+      </van-cell>
+    </van-list>
   </div>
   <Tabbar></Tabbar>
 </template>
@@ -15,7 +21,7 @@
 <script setup>
 
 import {ref} from "vue";
-import {newsfeeds} from "../../api/news";
+import {followedNewsfeedsApi} from "../../api/news";
 import Tabbar from "@/components/Tabbar.vue"
 import {useRouter} from "vue-router";
 import Newsfeed from "@/components/Newsfeed.vue";
@@ -28,7 +34,7 @@ const newsfeedList = ref([])
 
 // 列表加载
 const onLoad = () => {
-  newsfeeds({userId: 1, lastId}).then(res => {
+  followedNewsfeedsApi({lastId}).then(res => {
     let data = res.data
     console.log("data = ", data)
     if (data.length) {
@@ -45,7 +51,15 @@ const onLoad = () => {
   })
 };
 
-
+// share
+const toShare = () => {
+  router.push({
+    name: "Share",
+    params: {
+      action: 2,
+    }
+  })
+}
 
 </script>
 
@@ -54,8 +68,9 @@ const onLoad = () => {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
+
 .max-hight {
-  height:calc(100vh - 50px);
+  height: calc(100vh - 50px);
 }
 
 </style>

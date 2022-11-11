@@ -22,7 +22,7 @@
 
 <script setup>
 import {defineProps, reactive, ref, toRefs, watch} from 'vue';
-import {follow} from '@/api/user'
+import {followApi} from '@/api/user'
 import {useRouter} from "vue-router";
 
 
@@ -50,7 +50,7 @@ let curFollowed = ref(props.followed)
 let emit = defineEmits(["follow", "unfollow"])
 
 const followUser = () => {
-  follow({followed_user_id: props.user.id, type: 1}).then(() => {
+  followApi({followed_user_id: props.user.id, type: 1}).then(() => {
     Toast.success("关注成功")
     curFollowed.value = true
     user.fansCount++
@@ -62,7 +62,7 @@ const followUser = () => {
 }
 
 const unFollowUser = () => {
-  follow({followed_user_id: props.user.id, type: 2}).then(() => {
+  followApi({followed_user_id: props.user.id, type: 2}).then(() => {
     Toast.success("取关成功")
     curFollowed.value = false
     user.fansCount--

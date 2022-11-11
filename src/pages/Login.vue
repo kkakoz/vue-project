@@ -35,8 +35,8 @@ import {Toast} from 'vant';
 import {useStore} from 'vuex'
 import {current} from '../api/user';
 import {useRoute, useRouter} from 'vue-router'
+import {onMounted} from "vue";
 
-localStorage.clear()
 const store = useStore()
 const name = ref('a@b.com');
 const password = ref('ttt');
@@ -44,31 +44,46 @@ const password = ref('ttt');
 let route = useRoute()
 let router = useRouter()
 
-const onSubmit = (values) => {
+onMounted(() => {
+  if (window.history && window.history.pushState) {
+    // 向历史记录中插入了当前页
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', goBack, false);
+  }
+})
+
+const goBack = () => {
+  // console.log("点击了浏览器的返回按钮");
+  sessionStorage.clear();
+  window.history.back();
+}
+
+const onSubmit = async (values) => {
   Toast.loading({
     message: '登录中...',
     forbidClick: true,
     loadingType: 'spinner',
   });
 
-  login({
-    name: name.value,
-    password: password.value,
-    identity_type: 1,
-  }).then(res => {
-    store.commit("setToken", res.token)
-    current().then(res => {
-      store.commit("setUser", res)
+  try {
+    let res = await login({
+      name: name.value,
+      password: password.value,
+      identity_type: 1,
     })
+    localStorage.setItem("user:token", res.token)
+    let cur = await current()
+    store.commit("setUser", cur)
     Toast.success("登录成功")
-
-    console.log("route = ", route)
     if (route.query.back) {
-      router.push(route.query.back)
+      await router.push(route.query.back)
     } else {
-      router.push("/")
+      await router.push("/")
     }
-  })
+  } catch (e) {
+    Toast.fail("登录失败" + e)
+  }
+
 
 };
 const toRegister = () => {

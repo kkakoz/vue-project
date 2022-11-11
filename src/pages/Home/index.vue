@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import {ref, reactive, onMounted} from 'vue';
 import Tabbar from '@/components/Tabbar.vue';
 import {  getCategories } from '@/api/home.js'
 import VideoList from './components/VideoList.vue'
@@ -13,14 +13,27 @@ let categoryId = 0
 const categoryList = ref([{ id: 0, name: "最新" }])
 
 getCategories().then(res => {
-  let data = res.data
   console.log("res = ",res)
-  data.forEach(element => {
+  res.data.forEach(element => {
     categoryList.value.push(element)
   });
 }).catch((err) => {
   throw err
 })
+
+onMounted(()=> {
+  if (window.history && window.history.pushState) {
+    // 向历史记录中插入了当前页
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', goBack, false);
+  }
+})
+
+const goBack =  ()=> {
+  // console.log("点击了浏览器的返回按钮");
+  sessionStorage.clear();
+  window.history.back();
+}
 
 console.log("list = ",categoryList)
 
@@ -28,10 +41,14 @@ function login() {
   router.push('/login')
 }
 
+const toSearch =() => {
+  router.push("/search")
+}
+
 </script>
 
 <template>
-  <van-nav-bar>
+  <van-nav-bar >
     <template #left>
       <van-image v-if="$store.getters.user"
           round
@@ -40,7 +57,7 @@ function login() {
           :src="$store.getters.user.avatar"
       />
 <!--      https://unpkg.com/@vant/assets/cat.jpeg-->
-      <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" />
+      <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" @click="toSearch"/>
     </template>
     <template #right>
 
@@ -59,6 +76,7 @@ function login() {
   </van-tabs>
   <Tabbar></Tabbar>
 </template>
+
 
 <style lang="scss" scoped>
 

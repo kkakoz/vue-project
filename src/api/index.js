@@ -90,13 +90,10 @@ axios.interceptors.response.use(
                 localStorage.removeItem("user:token")
                 return Promise.reject(response.data);
             }
-            if (response.data.msg) {
+            if (response.status === 400 &&response.data.msg ) {
                 Toast(response.data.msg)
-                return Promise.reject(response.data);
-            } else {
-                Toast(showMessage(response.status))
-                return Promise.reject(response.data);
             }
+            return Promise.reject(response.data);
             // if (response.data.msg)
             // return Promise.resolve(response.data.msg);
         } else {

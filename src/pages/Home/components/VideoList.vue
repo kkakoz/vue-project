@@ -15,8 +15,8 @@
       @load="onLoad"
       immediate-check="false"
   >
-    <div class="grid grid-cols-2 " >
-      <VideoItem v-for="item in videoList.list" :video="item"></VideoItem>
+    <div class="grid grid-cols-2 ">
+      <VideoItem v-for="item in videoList" :video="item"></VideoItem>
     </div>
 <!--    <van-grid :border="false" :column-num="2">-->
 
@@ -40,7 +40,7 @@ const props = defineProps({
 let lastId = 0
 let finished = ref(false)
 let loading = ref(false)
-const videoList = reactive({list: []})
+const videoList = ref([])
 
 const onLoad = () => {
   // 异步更新数据
@@ -49,7 +49,7 @@ const onLoad = () => {
     var videos = res.data
     if (videos.length) {
       videos.forEach(element => {
-        videoList.list.push(element)
+        videoList.value.push(element)
       });
       lastId = videos[videos.length - 1].id
     } else {
@@ -57,6 +57,7 @@ const onLoad = () => {
     }
     loading.value = false;
   })
+  // console.log("videos = ", videoList.value)
 };
 
 

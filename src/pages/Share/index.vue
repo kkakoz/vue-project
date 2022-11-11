@@ -15,7 +15,7 @@
     />
   </van-cell-group>
 
-  <div class="m-4 bg-gray-100 h-40">
+  <div v-if="videoId" class="m-4 bg-gray-100 h-40">
     <div class="flex flex-col">
       <div>
         <span class="text-blue-200 text-xs">@{{ username }}</span>
@@ -41,7 +41,7 @@ import {Toast} from 'vant';
 
 let route = useRoute()
 let router = useRouter()
-const {username, name, cover, videoId} = route.params
+const {username, name, cover, videoId, action} = route.params
 const content = ref("")
 
 const onClickLeft = () => {
@@ -49,7 +49,11 @@ const onClickLeft = () => {
 }
 
 const clickRight = () => {
-  newsfeedAdd({targetType: 1, targetId: Number(videoId), content: content.value, action: 1}).then(() => {
+  let req = {action: Number(action), content: content.value}
+  if (videoId) {
+    req = {targetType: 1, targetId: Number(videoId), content: content.value, action}
+  }
+  newsfeedAdd(req).then(() => {
     Toast.success("分享成功")
     router.back()
   }).catch((err) => {

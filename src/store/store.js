@@ -51,10 +51,6 @@ const store = createStore({
             localStorage.setItem("user", JSON.stringify(user))
             state.user = user
         },
-        setToken(state, data) {
-            state.token = data
-            localStorage.setItem("user:token", data)
-        },
         logout(state) {
             localStorage.removeItem("user")
             localStorage.removeItem("user:token")

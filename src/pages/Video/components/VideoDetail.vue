@@ -4,13 +4,16 @@
     <div class="text-2xl">{{ video.name }}</div>
     <div class="mt-2">{{ video.brief }}</div>
     <State v-if="states" :states="states" :video="video"/>
+    <div v-if="video.resources.length >1" class="pl-4 text-2xl">选集</div>
     <div v-if="video.resources.length >1" class="eps_list">
+
       <div class="eps shadow-md " v-for="resource in video.resources" @click.stop="$emit('change-resource', resource)">
         {{ resource.name }}
       </div>
 
     </div>
   </div>
+
   <van-list>
     <VideoItem v-for="video in recommendVideos" :video="video"/>
   </van-list>
@@ -67,7 +70,7 @@ getRecommendVideos({videoId: props.video.id}).then((res) => {
   flex-shrink: 0; // 收缩比例
   white-space: nowrap; // 规定段落中的文本不进行换行
   overflow-x: auto; // 横向溢出元素的内容区域添加滚动
-  margin: 0 1rem;
+  margin: 2rem 1rem;
   bottom: -10rem;
 
   &::-webkit-scrollbar {

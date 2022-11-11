@@ -15,6 +15,7 @@ import Newsfeed from '../pages/News/index.vue'
 import Follower from '../pages/Follows/index.vue'
 import History from '../pages/History/index.vue'
 import Rankings from "../pages/Rankings/index.vue";
+import Search from "../pages/Search/index.vue";
 
 const routes = [{
         path: '/',
@@ -41,6 +42,13 @@ const routes = [{
         component: Person,
         meta: {
             title: 'Person'
+        },
+    },
+    {
+        path: '/search',
+        component: Search,
+        meta: {
+            title: 'Search'
         },
     },
     {

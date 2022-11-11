@@ -35,12 +35,8 @@
     <!-- /已登录：用户信息 -->
 
     <!-- 未登录 -->
-    <div v-else class="not-login" @click="$router.push('/login')">
-      <div class="my-container">
-        <div class="header">
-          <img class="mobile-img" src="../../assets/mobile.png" @click="$router.push('/login')" />
-        </div>
-      </div>
+    <div v-else class="w-full" @click="$router.push('/login')">
+      <img src="../../assets/mobile.png" class="text-center"/>
     </div>
     <!-- /未登录 -->
   </div>
@@ -75,11 +71,10 @@ const logout = () => {
 
 // 上传头像
 const uploadAvatar = async (file) => {
-  // console.log(file)
   try {
     let conf = await oss()
-    console.log(conf)
-    let res = await put(file.file.name, file.file, conf)
+
+    let res = await put(`${store.getters.user.id}_avatar`, file.file, conf.data)
     console.log(res)
     await updateAvatar({url: res.url})
     store.commit("setAvatar", res.url)
@@ -101,10 +96,6 @@ const toHistoryPage = () => {
 </script>
 
 <style scoped lang="scss">
-.header {
-  .user-info-wrap {
-    text-align: center;
-  }
-}
+
 </style>
 

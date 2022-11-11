@@ -115,6 +115,7 @@ const clickShow = () => {
       username: video.user.name,
       cover: video.cover,
       videoId: video.id,
+      action: 1,
     }
   })
 }

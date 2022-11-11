@@ -1,17 +1,20 @@
 <template>
-  <div class="video-item rounded-xl shadow-md pt-4 pb-4" @click="to">
+  <div class="video-item rounded-xl shadow-md" @click="to">
     <div class="video-item-pic">
       <div class="cover">
         <van-image height="30vw" width="100%" fit="cover"
                    :src="video.cover"/>
       </div>
 
-<!--      <span>-->
-<!--            <i><van-icon name="tv-o"/>{{ video.view }}23</i>-->
-<!--            <i><van-icon name="comment-o"/>{{ video.comment }}</i>-->
-<!--          </span>-->
+      <span>
+            <i><van-icon name="tv-o"/>{{ video.view }}</i>
+            <i><van-icon name="comment-o"/>{{ video.comment }}</i>
+          </span>
     </div>
-    <h3 class="video-item-title pl-2">{{ video.name }}</h3>
+    <div class="flex flex-col justify-between">
+      <h3 class="video-item-title pl-2">{{ video.name }}</h3>
+      <div class="text-1xl text-gray-400 pl-2">{{ video.user.name }}</div>
+    </div>
   </div>
 </template>
 
@@ -32,7 +35,6 @@ function to() {
 <style lang="scss" scoped>
 .video-item {
   margin: 2vw;
-  height: 40vw;
 
   .video-item-title {
     font-size: 4vw;

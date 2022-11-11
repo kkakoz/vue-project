@@ -53,12 +53,14 @@ import { getVideo } from '@/api/video';
 import DPlayer from 'dplayer';
 import CommentList from "./components/CommentList.vue";
 import {addHistoryApi, getHistoryApi} from "../../api/history";
+import {useStore} from "vuex";
 
 
 const props = defineProps({
   videoId: Number,
   resourceId: Number,
 })
+let store = useStore()
 
 const videoId = Number(props.videoId)
 
@@ -109,20 +111,28 @@ const newPlayer =() => {
   }
   console.log("resource = ", resource)
 
-  getHistoryApi({videoId}).then((res) => {
-    if (res.duration) {
-      console.log("cur his = ", res)
-      dp.seek(res.duration)
-      dp.notice("从上次播放位置开始播放")
-    }
-  }).catch((e) => {
-    console.log("no history")
-    addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
-      console.log("add history suc")
-    }).catch((e)=> {
-      console.log("add history fail")
+  if (store.getters.user) {
+    getHistoryApi({videoId}).then((res) => {
+      if (res && res.duration) {
+        console.log("cur his = ", res)
+        dp.seek(res.duration)
+        dp.notice("从上次播放位置开始播放")
+      } else {
+        addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
+          console.log("add history suc")
+        }).catch((e)=> {
+          console.log("add history fail")
+        })
+      }
+    }).catch((e) => {
+      addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
+        console.log("add history suc")
+      }).catch((e)=> {
+        console.log("add history fail")
+      })
     })
-  })
+  }
+
 
   initDp(resource)
 }
@@ -131,18 +141,17 @@ const initDp = (resource) => {
   dp = new DPlayer({
     // 配置参数
     container: document.getElementById('dplayer'),
-    // autoplay: false,
-    // theme: '#FADFA3',
-    // loop: true,
-    // lang: 'zh-cn',
-    // preload: 'auto',
-    // // logo: 'logo.png',
-    // volume: 0.7,
+    autoplay: false,
+    theme: '#FADFA3',
+    loop: true,
+    lang: 'zh-cn',
+    preload: 'auto',
+    // logo: 'logo.png',
+    volume: 0.7,
     video: {
-      url: "http://kkako-blog-bucket.oss-cn-beijing.aliyuncs.com/2-8%20%E7%AB%A0%E8%8A%82%E6%80%BB%E7%BB%93%5B%E5%A4%A9%E4%B8%8B%E6%97%A0%E9%B1%BC%5D%5Bshikey.com%5D.mp4",
-      // url: resource.url,
-      // pic: video.value.cover,
-      // type: 'auto',
+      url: resource.url,
+      pic: video.value.cover,
+      type: 'auto',
     }
   });
 
@@ -170,12 +179,10 @@ const initDp = (resource) => {
     console.log("duration change")
   })
 
-  dp.on("seeked", () => {
-    addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resource.id}).then((res)=> {
-      // console.log("add history suc")
-    }).catch((e)=> {
-      // console.log("add history fail")
-    })
+  dp.on("seeked", async () => {
+    if (store.getters.user) {
+      await addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resource.id})
+    }
   })
 
 

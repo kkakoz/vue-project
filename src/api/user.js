@@ -15,7 +15,7 @@ export const current = () => {
     return get("/user/current")
 }
 
-export const follow = (data) => {
+export const followApi = (data) => {
     return post("/follow/add", data)
 }
 
@@ -27,6 +27,6 @@ export const updateAvatar = (data) => {
     return post("/user/update-avatar", data)
 }
 
-export const followerApi = (data) => {
+export const followerListApi = (data) => {
     return get("/follower/list", data)
 }
