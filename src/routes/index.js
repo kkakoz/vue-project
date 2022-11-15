@@ -16,6 +16,8 @@ import Follower from '../pages/Follows/index.vue'
 import History from '../pages/History/index.vue'
 import Rankings from "../pages/Rankings/index.vue";
 import Search from "../pages/Search/index.vue";
+import Fans from "../pages/Fans/index.vue";
+import Collect from "../pages/Collect/index.vue"
 
 const routes = [{
         path: '/',
@@ -31,6 +33,14 @@ const routes = [{
         meta: {
             title: 'Login'
         },
+    },
+    {
+        path: '/fans/:userId',
+        component: Fans,
+        meta: {
+            title: 'Fans'
+        },
+        props: true
     },
     {
         path: '/video/:videoId',
@@ -69,6 +79,10 @@ const routes = [{
     {
         path: "/history",
         component: History,
+    },
+    {
+        path: "/collect",
+        component: Collect,
     },
     {
         path: '/upload',

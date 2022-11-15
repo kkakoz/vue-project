@@ -1,5 +1,5 @@
 <template>
-  <div class="video-item rounded-xl shadow-md" @click="to">
+  <div class="video-item rounded-xl shadow-md" @click="toVideo">
     <div class="video-item-pic">
       <div class="cover">
         <van-image height="30vw" width="100%" fit="cover"
@@ -12,8 +12,8 @@
           </span>
     </div>
     <div class="flex flex-col justify-between">
-      <h3 class="video-item-title pl-2">{{ video.name }}</h3>
-      <div class="text-1xl text-gray-400 pl-2">{{ video.user.name }}</div>
+      <div class="video-item-title pl-2">{{ video.name }}</div>
+      <div class="text-xl text-gray-400 pl-2">{{ video.user.name }}</div>
     </div>
   </div>
 </template>
@@ -27,8 +27,8 @@ const props = defineProps({
   video: Object
 })
 
-function to() {
-  router.push("/video/" + props.video.id)
+function toVideo() {
+  router.push("/video/"+props.video.id)
 }
 </script>
 
@@ -45,6 +45,8 @@ function to() {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
+    height: 8vw;
   }
 }
 

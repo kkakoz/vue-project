@@ -4,12 +4,12 @@
     <van-image round :src="user.avatar" fit="cover" width="20vw" height="20vw"/>
     <div class="flex flex-col">
       <div class="flex flex-row mb-2">
-        <div class="flex-col text-center w-24">
+        <div class="flex-col text-center w-24" @click="toFansPage">
           <div>{{ user.fansCount }}</div>
           <div class="text-gray-400">粉丝</div>
         </div>
         <span class="align-middle w-0.5 bg-gray-300 h-6 inline-block mt-2"></span>
-        <div class="flex-col text-center w-24">
+        <div class="flex-col text-center w-24" @click="toFollowPage">
           <div>{{ user.followCount }}</div>
           <div class="text-gray-400">关注</div>
         </div>
@@ -20,7 +20,8 @@
         </div>
       </div>
 
-      <van-button v-if="user.followed" round color="#D1D5DB" @click="unFollowUser">已关注</van-button>
+      <div v-if="$store.getters.user && $store.getters.user.id === user.id"></div>
+      <van-button v-else-if="user.followed" round color="#D1D5DB" @click="unFollowUser">已关注</van-button>
       <van-button v-else round :color="$store.state.baseColor" @click="followUser">关注</van-button>
       <!--      <div class="text-center pt-4 bg-blue-400 w-full" ></div>-->
     </div>
@@ -71,7 +72,7 @@ import {followApi} from "../../api/user";
 let props = defineProps({
   userId: Number
 })
-
+let router = useRouter()
 
 // init user
 const userId = Number(props.userId)
@@ -150,6 +151,14 @@ const unFollowUser = () => {
   }).catch((e) => {
     Toast.fail("取关失败")
   })
+}
+
+const toFansPage = () => {
+  router.push("/fans/"+userId)
+}
+
+const toFollowPage = () => {
+  router.push("/follower/"+userId)
 }
 
 

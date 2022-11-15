@@ -12,29 +12,30 @@
         <div class="text-gray-400">
           <van-icon name="user-circle-o" />&ensp;{{video.user.name}}
         </div>
-        <div class="text-gray-400">
-        <van-icon name="tv-o" />&ensp;{{ video.view }}&ensp;
-        <van-icon name="comment-o" />&ensp;{{ video.comment }}
+        <div class="text-xs pt-2 text-gray-400">
+          {{dateFormat(history.updatedAt)}}
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
 import {useRouter} from "vue-router";
-import { defineProps } from 'vue'
+import {defineProps, ref} from 'vue'
+import {dateFormat} from "@/utils/date";
+
 const props = defineProps({
-  video: Object
+  history: Object
 })
 
 let router = useRouter()
 
+console.log("vidoe = ", props.history)
+const video = props.history.video
 
 function toVideo() {
-  console.log("in to video")
-  router.push("/video/"+props.video.id)
+  router.push("/video/"+video.id)
 }
 </script>
 
@@ -57,5 +58,4 @@ function toVideo() {
 .right-container {
   width: 65vw;
 }
-
 </style>

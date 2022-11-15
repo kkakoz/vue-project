@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "vite build --mode production",
     "preview": "vite preview"
   },
   "dependencies": {
     "ali-oss": "^6.17.1",
     "axios": "^0.26.0",
-    "comment-core-library": "^0.11.1",
     "dplayer": "^1.27.0",
     "moment": "^2.29.4",
     "mui-player": "^1.6.0",

@@ -30,3 +30,7 @@ export const updateAvatar = (data) => {
 export const followerListApi = (data) => {
     return get("/follower/list", data)
 }
+
+export const fansApi = (data) => {
+    return get("/follow/fans", data)
+}

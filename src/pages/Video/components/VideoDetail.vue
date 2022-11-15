@@ -1,5 +1,5 @@
 <template>
-  <User v-if="states" :user="video.user" :followed="states.followedCreator" />
+  <User v-if="states" :user="video.user" :followed="states.followedCreator"/>
   <div class="p-4">
     <div class="text-2xl">{{ video.name }}</div>
     <div class="mt-2">{{ video.brief }}</div>
@@ -7,7 +7,8 @@
     <div v-if="video.resources.length >1" class="pl-4 text-2xl">选集</div>
     <div v-if="video.resources.length >1" class="eps_list">
 
-      <div class="eps shadow-md " v-for="resource in video.resources" @click.stop="$emit('change-resource', resource)">
+      <div :class="epsClass(resource, resourceId)" v-for="resource in video.resources"
+           @click.stop="changeResource(resource)">
         {{ resource.name }}
       </div>
 
@@ -15,29 +16,38 @@
   </div>
 
   <van-list>
-    <VideoItem v-for="video in recommendVideos" :video="video"/>
+    <van-cell>
+      <VideoItem v-for="video in recommendVideos" :video="video"/>
+    </van-cell>
   </van-list>
 </template>
 
 <script setup>
-import {ref, defineProps, toRefs, computed} from 'vue';
+import {ref, defineProps, toRefs, computed, watch} from 'vue';
 import State from "./State.vue";
 import User from "@/components/User.vue";
 import {useStore} from "vuex";
-import { videoUserState, getRecommendVideos } from '@/api/video';
+import {videoUserState, getRecommendVideos} from '@/api/video';
 import VideoItem from "@/components/VideoItem.vue";
 
 
 const store = useStore()
+let emit = defineEmits(["change-resource"]);
 
 const props = defineProps({
-  video: Object
+  video: Object,
+  resourceId: Number,
 })
 
-const changeResource =(resource) => {
+let resourceId = ref(Number(props.resourceId))
 
+
+
+const changeResource = (resource) => {
+  emit("change-resource", resource)
+  console.log("change resource",)
+  resourceId.value = resource.id
 }
-
 
 const states = ref(undefined)
 
@@ -48,19 +58,29 @@ if (store.getters.user) {
     console.log(e)
   })
 } else {
-  states.value = {followed_creator:false,user_like:false,user_dis_like:false,user_collection:false,user_shared:false}
+  states.value = {
+    followed_creator: false,
+    user_like: false,
+    user_dis_like: false,
+    user_collection: false,
+    user_shared: false
+  }
 }
 
 let recommendVideos = ref([])
 
-getRecommendVideos({videoId: props.video.id}).then((res) => {
+const epsClass = (resource, resourceId) => {
+  return resource.id===resourceId?'eps-hover shadow-md':'eps shadow-md'
+}
 
+getRecommendVideos({videoId: props.video.id}).then((res) => {
   res.forEach((ele) => {
     recommendVideos.value.push(ele)
   })
 }).catch((e) => {
   console.log(e)
 })
+
 
 </script>
 
@@ -85,11 +105,17 @@ getRecommendVideos({videoId: props.video.id}).then((res) => {
     outline: .1rem solid #ccc;
     outline-offset: -1px;
 
-    &:hover {
-      outline: .2rem solid #5aa5d3;
-      color: #5aa5d3;
-    }
+  }
 
+  .eps-hover {
+    margin-right: 4vw;
+    // border: 3px solid white;
+    border-radius: 2vw;
+    padding: 10px;
+    outline-offset: -1px;
+
+    outline: .2rem solid #fb7299;
+    color: #fb7299;
   }
 }
 

@@ -18,12 +18,10 @@
           :rules="[{ required: true, message: '请填写密码' }]"
       />
     </van-cell-group>
-    <div style="margin: 16px;">
-      <van-button round block type="primary" native-type="submit">登录</van-button>
-    </div>
+    <van-button round block type="primary" native-type="submit" :color="$store.state.baseColor">登录</van-button>
   </van-form>
-  <div style="margin: 16px;">
-    <van-button round block type="primary" @click="toRegister">注册</van-button>
+  <div class="mt-2">
+    <van-button round block type="primary" :color="$store.state.baseColor" @click="toRegister">注册</van-button>
   </div>
 </template>
 
@@ -38,25 +36,12 @@ import {useRoute, useRouter} from 'vue-router'
 import {onMounted} from "vue";
 
 const store = useStore()
-const name = ref('a@b.com');
-const password = ref('ttt');
+const name = ref('');
+const password = ref('');
 
 let route = useRoute()
 let router = useRouter()
 
-onMounted(() => {
-  if (window.history && window.history.pushState) {
-    // 向历史记录中插入了当前页
-    history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', goBack, false);
-  }
-})
-
-const goBack = () => {
-  // console.log("点击了浏览器的返回按钮");
-  sessionStorage.clear();
-  window.history.back();
-}
 
 const onSubmit = async (values) => {
   Toast.loading({
@@ -69,8 +54,8 @@ const onSubmit = async (values) => {
     let res = await login({
       name: name.value,
       password: password.value,
-      identity_type: 1,
     })
+    console.log("res=",res)
     localStorage.setItem("user:token", res.token)
     let cur = await current()
     store.commit("setUser", cur)
@@ -98,10 +83,10 @@ const toRegister = () => {
 
 <style scoped lang="scss">
 .page-nav-bar {
-  background-color: #3296fa;
+  background-color: #fb7299;
 
   .van-nav-bar__title {
-    color: #fff;
+    color: white;
   }
 }
 </style>

@@ -21,22 +21,6 @@ getCategories().then(res => {
   throw err
 })
 
-onMounted(()=> {
-  if (window.history && window.history.pushState) {
-    // 向历史记录中插入了当前页
-    history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', goBack, false);
-  }
-})
-
-const goBack =  ()=> {
-  // console.log("点击了浏览器的返回按钮");
-  sessionStorage.clear();
-  window.history.back();
-}
-
-console.log("list = ",categoryList)
-
 function login() {
   router.push('/login')
 }

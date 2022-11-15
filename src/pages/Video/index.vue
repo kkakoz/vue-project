@@ -5,7 +5,7 @@
 
   <van-tabs v-model:active="active">
     <van-tab title="详情">
-      <VideoDetail v-if="video" :videoId="video.id" :video="video" @change-resource="initDp"/>
+      <VideoDetail v-if="video && resourceId" :resourceId="resourceId" :video="video" @change-resource="initDp"/>
     </van-tab>
 
 
@@ -58,13 +58,10 @@ import {useStore} from "vuex";
 
 const props = defineProps({
   videoId: Number,
-  resourceId: Number,
 })
 let store = useStore()
 
 const videoId = Number(props.videoId)
-
-const resourceId = Number(props.videoId)
 
 const video = ref(undefined)
 
@@ -89,55 +86,63 @@ const sendDanmuClick = () => {
 
 const danmuMsg = ref("")
 
+var resourceId = ref(undefined)
+
 // 播放器
 let dp = null
 
 const newPlayer =() => {
   let resource = undefined
   let curVideo = video.value
-  console.log("video = ", video)
-  if (curVideo.resources.length === 1) {
-    resource = curVideo.resources[0]
-  }
-  if (curVideo.resources.length > 1) {
-    if (resourceId) {
-      curVideo.resources.forEach((ele) => {
-        if (ele.id === resourceId) {
-          resource = ele
-        }
-      })
-    }
-    resource = curVideo.resources[0]
-  }
-  console.log("resource = ", resource)
+
 
   if (store.getters.user) {
     getHistoryApi({videoId}).then((res) => {
       if (res && res.duration) {
-        console.log("cur his = ", res)
-        dp.seek(res.duration)
-        dp.notice("从上次播放位置开始播放")
+        curVideo.resources.forEach((ele) => {
+          if (ele.id === res.resourceId) {
+            resource = ele
+            resourceId.value = resource.id
+          }
+        })
       } else {
+        if (curVideo.resources.length >= 1) {
+          resource = curVideo.resources[0]
+          resourceId.value = resource.id
+        }
         addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
           console.log("add history suc")
         }).catch((e)=> {
           console.log("add history fail")
         })
       }
+      initDp(resource)
+      dp.seek(res.duration)
+      dp.notice("从上次播放位置开始播放")
     }).catch((e) => {
+      if (curVideo.resources.length >= 1) {
+        resource = curVideo.resources[0]
+        resourceId.value = resource.id
+      }
       addHistoryApi({duration: 0, videoId, resourceId: resource.id}).then((res)=> {
         console.log("add history suc")
       }).catch((e)=> {
         console.log("add history fail")
       })
     })
+  } else {
+    if (curVideo.resources.length >= 1) {
+      resource = curVideo.resources[0]
+      resourceId.value = resource.id
+    }
+    initDp(resource)
   }
 
-
-  initDp(resource)
 }
 
+
 const initDp = (resource) => {
+
   dp = new DPlayer({
     // 配置参数
     container: document.getElementById('dplayer'),
@@ -184,7 +189,6 @@ const initDp = (resource) => {
       await addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resource.id})
     }
   })
-
 
 
 }

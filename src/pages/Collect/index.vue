@@ -1,9 +1,9 @@
 <template>
-  <van-nav-bar title="历史记录" fixed="true"  placeholder/>
+  <van-nav-bar title="收藏列表" fixed="true"  placeholder/>
 
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-cell v-for="history in histories" :key="item" :title="item">
-      <VideoItem  :history="history"/>
+    <van-cell v-for="video in videos" :key="item" :title="item">
+      <VideoItem  :video="video.video"/>
     </van-cell>
   </van-list>
 
@@ -11,24 +11,24 @@
 
 
 <script setup>
-import VideoItem from "./components/VideoItem.vue";
+import VideoItem from "@/components/VideoItem.vue";
 import {ref} from "vue";
-import {getHistoriesApi} from "../../api/history";
+import {getCollectListApi} from "../../api/collect";
 
 let lastId = 0
 let finished = ref(false)
 let loading = ref(false)
-const histories = ref([])
+const videos = ref([])
 
 // 列表加载
 const onLoad = () => {
-  getHistoriesApi({lastId}).then(res => {
+  getCollectListApi({lastId}).then(res => {
     let data = res.data
     console.log("data = ", res)
     if (data.length) {
       console.log("in length")
       data.forEach(element => {
-        histories.value.push(element)
+        videos.value.push(element)
       });
       lastId = data[data.length - 1].id
     } else {

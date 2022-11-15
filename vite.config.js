@@ -13,6 +13,19 @@ export default defineConfig({
 			resolves: [VantResolve()],
 		}),
 	],
+	publicPath: './',
+	build: {
+		chunkSizeWarningLimit:1500,
+		rollupOptions: {
+			output:{
+				manualChunks(id) {
+					if (id.includes('node_modules')) {
+						return id.toString().split('node_modules/')[1].split('/')[0].toString();
+					}
+				}
+			}
+		}
+	},
 	resolve: {
 		alias: {
 			'@': '/src'
@@ -25,18 +38,6 @@ export default defineConfig({
 	// 		}
 	// 	}
 	// },
-	server: {
-		hostname: '0.0.0.0',
-		port: 10555,
-		proxy: {
-			"/api": {
-			  target: "http://localhost:10012",
-			  changeOrigin: true,
-			  rewrite: (path) => path.replace(/^\/api/, ""),
-			},
-		  },
-
-    }
 	// css: {
 	// 	//css预处理
 	// 	preprocessorOptions: {
