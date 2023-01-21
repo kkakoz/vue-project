@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row" @click.stop="toVideo">
-    <van-image
+    <van-image v-if="video"
         width="35vw"
         height="20vw"
         fit="fill"
@@ -33,7 +33,6 @@ let router = useRouter()
 
 
 function toVideo() {
-  console.log("in to video")
   router.push("/video/"+props.video.id)
 }
 </script>

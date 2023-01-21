@@ -1,9 +1,11 @@
 <script setup>
 import {ref, reactive, onMounted} from 'vue';
 import Tabbar from '@/components/Tabbar.vue';
-import {  getCategories } from '@/api/home.js'
+import {  getCategories } from '@/api/home'
 import VideoList from './components/VideoList.vue'
 import {useRouter} from "vue-router";
+import { unReadCountApi } from '@/api/notice'
+import {useStore} from "vuex";
 
 let router = useRouter()
 const active = ref(0);
@@ -21,6 +23,18 @@ getCategories().then(res => {
   throw err
 })
 
+const unReadCount = ref(0)
+
+const store = useStore()
+if (store.getters.user) {
+  unReadCountApi().then(res => {
+    console.log("notice count = ", res)
+    unReadCount.value = res.count
+  })
+
+}
+
+
 function login() {
   router.push('/login')
 }
@@ -28,6 +42,12 @@ function login() {
 const toSearch =() => {
   router.push("/search")
 }
+
+const toNoticePage =() => {
+  router.push("/notice")
+}
+
+
 
 </script>
 
@@ -47,6 +67,13 @@ const toSearch =() => {
 
       <div v-if="!$store.getters.user" class="login text-blue-400" @click="login">
         登录
+      </div>
+      <div v-else class="alarm" @click="toNoticePage">
+        <i class="iconfont icon-email text-3xl"></i>
+
+        <div v-if="unReadCount>0" class="divright">
+          {{ unReadCount }}
+        </div>
       </div>
     </template>
   </van-nav-bar>
@@ -70,5 +97,25 @@ const toSearch =() => {
   border-radius: 50%;
 }
 
+.divright {
+  position: absolute;
+  color: white;
+  font-size: .2rem;
+  background-color: #fb7299;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  line-height: 20px;
+  left: 60%;
+  top: -8px;
+  text-align: center;
+  -webkit-border-radius: 1.5rem;
+  border-radius: 1.5rem;
+}
+
+.alarm {
+  position: relative;
+  height: 1.5rem;
+  margin-right: .5rem;
+}
 
 </style>

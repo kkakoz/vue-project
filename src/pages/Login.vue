@@ -1,5 +1,9 @@
 <template>
-  <van-nav-bar title="登录" class="page-nav-bar"/>
+  <van-nav-bar  class="page-nav-bar" left-arrow @click-left="goBack">
+    <template #title>
+      <div class="text-white">登录</div>
+    </template>
+  </van-nav-bar>
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
@@ -42,6 +46,21 @@ const password = ref('');
 let route = useRoute()
 let router = useRouter()
 
+onMounted(() => {
+  if (window.history && window.history.pushState) {
+    // 向历史记录中插入了当前页
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', goBack, false);
+  }
+})
+
+const goBack = () => {
+  // console.log("点击了浏览器的返回按钮");
+  sessionStorage.clear();
+  window.history.back();
+}
+
+
 
 const onSubmit = async (values) => {
   Toast.loading({
@@ -60,13 +79,15 @@ const onSubmit = async (values) => {
     let cur = await current()
     store.commit("setUser", cur)
     Toast.success("登录成功")
+    // await store.dispatch("webSocketInit")
     if (route.query.back) {
       await router.push(route.query.back)
     } else {
       await router.push("/")
     }
   } catch (e) {
-    Toast.fail("登录失败" + e)
+    console.log("e = ", e)
+    // Toast.fail("登录失败" + e.msg)
   }
 
 
@@ -85,8 +106,5 @@ const toRegister = () => {
 .page-nav-bar {
   background-color: #fb7299;
 
-  .van-nav-bar__title {
-    color: white;
-  }
 }
 </style>

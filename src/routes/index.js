@@ -18,6 +18,7 @@ import Rankings from "../pages/Rankings/index.vue";
 import Search from "../pages/Search/index.vue";
 import Fans from "../pages/Fans/index.vue";
 import Collect from "../pages/Collect/index.vue"
+import Notice from "../pages/Notice/index.vue"
 
 const routes = [{
         path: '/',
@@ -41,6 +42,13 @@ const routes = [{
             title: 'Fans'
         },
         props: true
+    },
+    {
+        path: '/notice',
+        component: Notice,
+        meta: {
+            title: 'Notice'
+        },
     },
     {
         path: '/video/:videoId',

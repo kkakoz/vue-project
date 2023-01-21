@@ -5,13 +5,13 @@
       <van-icon v-else size="30" :color="cancelColor" name="good-job" @click="likeVideo(true, true)"/>
       <div class="mt-5 text-center">{{ likeCount }}</div>
     </div>
-    <div class="flex flex-col">
+<!--    <div class="flex flex-col">-->
 
-      <i v-if="curState.userDisLike" class="icon iconfont icon-dislike text-4xl startColor"
-         @click="likeVideo(false, false)"></i>
-      <i v-else class="icon iconfont icon-dislike text-4xl cancelColor" @click="likeVideo(true, false)"></i>
-      <div class="mt-5">不喜欢</div>
-    </div>
+<!--      <i v-if="curState.userDisLike" class="icon iconfont icon-dislike text-4xl startColor"-->
+<!--         @click="likeVideo(false, false)"></i>-->
+<!--      <i v-else class="icon iconfont icon-dislike text-4xl cancelColor" @click="likeVideo(true, false)"></i>-->
+<!--      <div class="mt-5">不喜欢</div>-->
+<!--    </div>-->
     <div class="flex flex-col">
       <van-icon v-if="curState.userCollect" size="30" :color="startColor" name="star" @click="clickCollect(false)"/>
       <van-icon v-else size="30" :color="cancelColor" name="star" @click="clickCollect(true)"/>
@@ -43,7 +43,7 @@ import {Toast} from "vant";
 
 let router = useRouter()
 
-const startColor = "#60A5FA"
+const startColor = "#fb7299"
 const cancelColor = "#9CA3AF"
 
 let props = defineProps({
@@ -61,7 +61,15 @@ let curState = reactive(props.states)
 
 // 点赞 or 取消点赞
 const likeVideo = (likeType, likeValue) => { // like type true 添加； false 取消
-  like({targetId: props.video.id, targetType: 1, likeType: likeType, like: likeValue}).then((res) => {
+  var likeState = 0
+  if (likeType) { // 添加
+    if (likeValue) {
+      likeState = 1
+    } else {
+      likeState = 2
+    }
+  }
+  like({targetId: props.video.id, targetType: 1, likeState}).then((res) => {
     if (likeValue) { // 喜欢
       if (likeType) { // 添加
         likeCount.value = likeCount.value + 1
@@ -129,7 +137,7 @@ const clickShow = () => {
 }
 
 .startColor {
-  color: #60A5FA;
+  color: #fb7299;
   font-size: 9vw;
 }
 </style>

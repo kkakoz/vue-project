@@ -47,13 +47,6 @@ axios.interceptors.request.use(
 
 // http response 拦截器
 axios.interceptors.response.use(
-//     (response) => {
-//     if (response.status == 200) {
-//         return Promise.resolve(response);
-//     } else {
-//         return Promise.reject(response);
-//     }
-// }
     response => {
         // return response
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
@@ -64,6 +57,7 @@ axios.interceptors.response.use(
         return Promise.resolve(response.data);
     },
     error => {
+        console.log("err = ", error)
         const {
             response
         } = error;
@@ -97,8 +91,12 @@ axios.interceptors.response.use(
             // if (response.data.msg)
             // return Promise.resolve(response.data.msg);
         } else {
-            console.log("err", error)
-            Toast("网络连接异常,请稍后再试!")
+            console.log("err2", error)
+            if (error.code === 400) {
+                Toast(error.msg)
+            } else {
+                Toast("网络连接异常,请稍后再试!")
+            }
             return Promise.reject();
         }
 

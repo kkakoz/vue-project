@@ -14,7 +14,7 @@
     </div>
     <div v-if="$store.getters.user && $store.getters.user.id != user.id" class="p-2">
       <van-button v-if="curFollowed &&curFollowed === true" color="#D1D5DB" size="small" @click.stop="unFollowUser">已关注</van-button>
-      <van-button v-else-if="curFollowed && curFollowed === false" color="#60A5FA" size="small" @click.stop="followUser">+ 关注</van-button>
+      <van-button v-else color="#60A5FA" size="small" @click.stop="followUser">+ 关注</van-button>
     </div>
 
   </div>

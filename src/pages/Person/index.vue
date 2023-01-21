@@ -55,7 +55,7 @@
             width="10vw"
             height="10vw"
             round
-            src="http://kkako-blog-bucket.oss-cn-beijing.aliyuncs.com/1_avatar"
+            src="http://kkako-blog-bucket.oss-cn-beijing.aliyuncs.com/avatar/default_avatar.gif"
         />
 
         <div class="flex flex-col pl-2 ">
@@ -93,9 +93,9 @@ const logout = () => {
 // 上传头像
 const uploadAvatar = async (file) => {
   try {
-    let conf = await oss()
-    console.log("conf = ", conf)
-    let res = await put(`${store.getters.user.id}_avatar`, file.file, conf)
+    // let conf = await oss()
+    // console.log("conf = ", conf)
+    let res = await put(`avatar/${store.getters.user.id}_avatar`, file.file)
     console.log(res)
     await updateAvatar({url: res.url})
     store.commit("setAvatar", res.url)

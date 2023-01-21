@@ -5,3 +5,4 @@ export function dateFormat(unix) {
     let date = new Date(unix)
     return moment(date).format("YYYY-MM-DD HH:mm");
 }
+

@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div id="dplayer" class="play-root" ></div>
+  <div :class="isWebfullscreen">
+      <div id="dplayer" class="play-root" ></div>
+
   </div>
 
   <van-tabs v-model:active="active">
@@ -48,7 +49,7 @@
 
 <script setup>
 import VideoDetail from './components/VideoDetail.vue'
-import {ref, defineProps, reactive, onUnmounted} from 'vue';
+import {ref, defineProps, reactive, onUnmounted, onMounted} from 'vue';
 import { getVideo } from '@/api/video';
 import DPlayer from 'dplayer';
 import CommentList from "./components/CommentList.vue";
@@ -88,10 +89,13 @@ const danmuMsg = ref("")
 
 var resourceId = ref(undefined)
 
+const isWebfullscreen = ref("")
+
 // 播放器
 let dp = null
 
 const newPlayer =() => {
+
   let resource = undefined
   let curVideo = video.value
 
@@ -138,10 +142,30 @@ const newPlayer =() => {
     initDp(resource)
   }
 
+
 }
+
+onMounted(()=> {
+  if (store.getters.user) {
+    var timer = setInterval(() => {
+      if (dp != null && !dp.video.paused) {
+        console.log("timer", dp.video.currentTime)
+        addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resourceId.value}).then((res)=> {
+          console.log("add history suc")
+        }).catch((e)=> {
+          console.log("add history fail")
+        })
+      }
+
+    }, 10000);
+  }
+
+})
 
 
 const initDp = (resource) => {
+
+  resourceId.value = resource.id
 
   dp = new DPlayer({
     // 配置参数
@@ -180,16 +204,12 @@ const initDp = (resource) => {
   //       console.log('success');
   //     }
   // );
-  dp.on('durationchange', ()=> {
-    console.log("duration change")
-  })
 
   dp.on("seeked", async () => {
     if (store.getters.user) {
       await addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resource.id})
     }
   })
-
 
 }
 
@@ -223,4 +243,30 @@ const emitAddComment = () => {
   background-color: coral;
   margin: 0 auto;
 }
+
+.is-webfullscreen {
+  .dplayer {
+    .dplayer-video-wrap {
+      .dplayer-video-current {
+        transform: rotate(90deg);
+      }
+      .dplayer-controller {
+        left: 30px !important;
+        top: 350px !important;
+        transform: translate(-50%, -50%) rotate(90deg);
+        width: 600px !important;
+        transition: unset;
+      }
+      .dplayer-mobile-play {
+        transform: rotate(90deg);
+      }
+      .dplayer-notice {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+
+}
+
 </style>
