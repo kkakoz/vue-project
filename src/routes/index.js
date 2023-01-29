@@ -19,6 +19,8 @@ import Search from "../pages/Search/index.vue";
 import Fans from "../pages/Fans/index.vue";
 import Collect from "../pages/Collect/index.vue"
 import Notice from "../pages/Notice/index.vue"
+import UploadVideo from "../pages/UploadVideo/index.vue"
+
 
 const routes = [{
         path: '/',
@@ -54,6 +56,10 @@ const routes = [{
         path: '/video/:videoId',
         component: Video,
         props: true // 开启 Props 传参，说白了就是把路由参数映射到组件的 props 数据中
+    },
+    {
+        path: '/upload_video',
+        component: UploadVideo,
     },
     {
         path: '/person',

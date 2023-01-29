@@ -22,3 +22,11 @@ export const getRecommendVideos = data => {
 export const getRankingsApi = data => {
     return get(`/video/rankings`, data)
 }
+
+export const uploadVideoApi = data => {
+    return post(`/video/add`, data)
+}
+
+export const AddVideoViewApi = data => {
+    return post(`/video/add_view`, data)
+}

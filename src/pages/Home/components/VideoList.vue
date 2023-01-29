@@ -7,15 +7,16 @@
 
 
 <template>
-  <div class="max-hight bg-gray-100">
+  <div class="max-hight ">
   <van-list
       v-model:loading="loading"
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad"
       immediate-check="false"
+
   >
-    <div class="grid grid-cols-2 ">
+    <div class="grid grid-cols-2 bg-gray-100">
       <VideoItem v-for="item in videoList" :video="item"></VideoItem>
     </div>
 <!--    <van-grid :border="false" :column-num="2">-->

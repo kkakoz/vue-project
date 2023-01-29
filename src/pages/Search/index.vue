@@ -36,7 +36,7 @@ const show = ref(false)
 
 
 const onCancel = () => {
-  router.go(-1)
+  router.push("/")
 }
 
 let lastId = 0

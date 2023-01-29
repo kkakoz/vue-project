@@ -55,6 +55,7 @@ import DPlayer from 'dplayer';
 import CommentList from "./components/CommentList.vue";
 import {addHistoryApi, getHistoryApi} from "../../api/history";
 import {useStore} from "vuex";
+import {AddVideoViewApi} from "../../api/video";
 
 
 const props = defineProps({
@@ -142,12 +143,14 @@ const newPlayer =() => {
     initDp(resource)
   }
 
-
 }
+
+var cur = 0
 
 onMounted(()=> {
   if (store.getters.user) {
     var timer = setInterval(() => {
+      cur += 10
       if (dp != null && !dp.video.paused) {
         console.log("timer", dp.video.currentTime)
         addHistoryApi({duration: parseInt(dp.video.currentTime), videoId, resourceId: resourceId.value}).then((res)=> {
@@ -155,6 +158,12 @@ onMounted(()=> {
         }).catch((e)=> {
           console.log("add history fail")
         })
+      }
+      if (cur === 120) {
+        cur = 0
+        AddVideoViewApi(videoId).then(()=> {
+
+        }).catch()
       }
 
     }, 10000);

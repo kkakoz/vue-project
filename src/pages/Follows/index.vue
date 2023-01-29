@@ -2,7 +2,7 @@
   <van-nav-bar title="关注列表" fixed="true"  placeholder/>
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
     <van-cell v-for="follower in followers" :key="item" :title="item">
-      <User :user="follower" followed="true" />
+      <User :user="follower" :followed="followed" />
     </van-cell>
   </van-list>
 
@@ -14,12 +14,20 @@ import {ref} from "vue";
 import {newsfeeds} from "../../api/news";
 import {followerListApi} from "../../api/user";
 import User from "../../components/User.vue"
+import {useStore} from 'vuex'
 
 let props = defineProps({
   userId: Number
 })
 
 const userId = Number(props.userId)
+
+let store = useStore()
+
+let followed = ref(false)
+if (userId === store.getters.user.id) {
+  followed.value = true
+}
 
 let router = useRouter()
 let lastId = 0

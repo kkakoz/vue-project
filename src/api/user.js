@@ -23,7 +23,7 @@ export const getUser = (data) => {
     return get("/user/get", data)
 }
 
-export const updateAvatar = (data) => {
+export const updateAvatarApi = (data) => {
     return post("/user/update-avatar", data)
 }
 

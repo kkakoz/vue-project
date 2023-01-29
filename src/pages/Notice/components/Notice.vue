@@ -20,7 +20,6 @@
 import {defineProps, reactive, ref, toRefs, watch} from 'vue';
 import {followApi} from '@/api/user'
 import {useRouter} from "vue-router";
-import {readAllApi} from "@/api/notice";
 
 let router = useRouter()
 import {
@@ -38,12 +37,6 @@ const user = ref(props.notice.fromUser)
 const toUser = (userId) => {
   router.push(`/user/${userId}`)
 }
-
-readAllApi().then(()=> {
-
-}).catch((err)=> {
-
-})
 
 
 </script>

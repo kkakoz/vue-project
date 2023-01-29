@@ -2,14 +2,15 @@
   <div class="video-item rounded-xl shadow-md" @click="toVideo">
     <div class="video-item-pic">
       <div class="cover">
-        <van-image height="30vw" width="100%" fit="cover"
-                   :src="video.cover"/>
+        <img :src="video.cover" class="h-full w-full video-image">
+<!--        <van-image height="30vw" width="100%" fit="cover"-->
+<!--                   :src="video.cover"/>-->
       </div>
 
-      <span>
-            <i><van-icon name="tv-o"/>{{ video.view }}</i>
-            <i><van-icon name="comment-o"/>{{ video.comment }}</i>
-          </span>
+      <span class="text-white">
+        <i><van-icon name="tv-o"/>{{ video.view }}</i>
+        <i><van-icon name="comment-o"/>{{ video.comment }}</i>
+      </span>
     </div>
     <div class="flex flex-col justify-between">
       <div class="video-item-title pl-2">{{ video.name }}</div>
@@ -28,7 +29,7 @@ const props = defineProps({
 })
 
 function toVideo() {
-  router.push("/video/"+props.video.id)
+  router.push("/video/" + props.video.id)
 }
 </script>
 

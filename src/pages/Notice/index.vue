@@ -1,7 +1,7 @@
 <template>
   <van-nav-bar left-arrow fixed="true" @click-left="goBack" placeholder>
     <template #right>
-     <div>一键已读</div>
+     <div @click="readAll">一键已读</div>
     </template>
   </van-nav-bar>
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -16,6 +16,8 @@
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {noticeListApi} from "@/api/notice";
+
+
 import Notice from "./components/Notice.vue";
 
 let router = useRouter()
@@ -44,8 +46,15 @@ const onLoad = () => {
 };
 
 const goBack = () => {
-  router.go(-1)
+  router.push("/")
 }
 
+const readAll = ()=> {
+  readAllApi().then(()=> {
+
+  }).catch((err)=> {
+
+  })
+}
 
 </script>

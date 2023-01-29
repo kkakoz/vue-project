@@ -11,7 +11,7 @@
           />
         </van-uploader>
 
-        <div class="flex flex-col pl-2 ">
+        <div class="flex flex-col pl-2 " @click="toUser($store.getters.user.id)">
           <div class="text-2xl flex">{{ $store.getters.user.name }}</div>
           <div v-if="$store.getters.user.brief" class="text-1xl text-center pt-2 flex pl-6 text-gray-400">
             {{$store.getters.user.brief}}
@@ -41,8 +41,7 @@
       </van-grid>
       <!-- 退出 -->
       <van-cell-group>
-<!--        <van-cell title="消息通知"/>-->
-<!--        <van-cell title="上传视频" @click="upload"/>-->
+        <van-cell v-if="$store.getters.user" title="上传视频" @click="toUploadVideo"></van-cell>
         <van-cell v-if="$store.getters.user" title="退出" @click="logout"></van-cell>
       </van-cell-group>
     </div>
@@ -78,7 +77,7 @@ import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {oss, put} from '@/api/oss';
 import {Toast} from "vant";
-import {updateAvatar} from "../../api/user";
+import {updateAvatarApi} from "../../api/user";
 
 
 let router = useRouter()
@@ -87,7 +86,11 @@ const store = useStore()
 
 const logout = () => {
   store.commit("logout")
-  router.go(-1)
+  router.push("/")
+}
+
+const toUploadVideo = () => {
+  router.push("/upload_video")
 }
 
 // 上传头像
@@ -97,13 +100,14 @@ const uploadAvatar = async (file) => {
     // console.log("conf = ", conf)
     let res = await put(`avatar/${store.getters.user.id}_avatar`, file.file)
     console.log(res)
-    await updateAvatar({url: res.url})
+    await updateAvatarApi({url: res.url})
     store.commit("setAvatar", res.url)
     router.go(0)
   } catch (e) {
     console.log("err = ", e)
   }
 }
+
 
 // 去关注页面
 const toFollowPage = (userId) => {
@@ -117,6 +121,10 @@ const toHistoryPage = () => {
 
 const toCollectPage = () => {
   router.push("/collect")
+}
+
+const toUser = (userId) => {
+  router.push(`/user/${userId}`)
 }
 
 </script>
